@@ -1,8 +1,6 @@
 import React, { useState } from 'react'
 
-const Header = (props) => {
-  return <h1>{props.title}</h1>;
-};
+const Header = (props) => <h1>{props.title}</h1>;
 
 const Button = ({ handleClick, text }) => (
   <button onClick={handleClick}>
@@ -10,36 +8,39 @@ const Button = ({ handleClick, text }) => (
   </button>
 )
 
-const Stat = ({ text, value }) => (
-  <div> {text} {value} </div>
-)
+const Statistic = ({ text, value }) => {
+  return (
+    <tr> 
+      <td>{text}</td> 
+      <td>{value}</td> 
+    </tr>
+  )
+}
 
 const Statistics = ({ good, neutral, bad }) => {
-
   let total = (good + bad + neutral)
   if (total === 0){
     return "No feedback given"
   }
   else{
     //Creating averaging function
-    const average = (good,bad,neutral) => {
+    const getAverage = (good,bad,neutral) => {
       return ((good*1) + (bad*-1))/total
     }
 
     return (
-      <div>
-        <Stat text="good" value={good} />
-        <Stat text="neutral" value={neutral} />
-        <Stat text="bad" value={bad} />
-        <Stat text="all" value={good + bad + neutral} />
-        <Stat text="average" value={average(good,bad,neutral)} />
-        <Stat text="positive" value={good/(total) + " %"} />
-      </div>
+      <table>
+        <tbody>
+          <Statistic text="good" value={good} />
+          <Statistic text="neutral" value={neutral} />
+          <Statistic text="bad" value={bad} />
+          <Statistic text="all" value={good + bad + neutral} />
+          <Statistic text="average" value={getAverage(good,bad,neutral).toPrecision(2)} />
+          <Statistic text="positive" value={ (good/(total) * 100).toPrecision(3) + "%"} />
+        </tbody>
+      </table>
     )
-
   }
-  
-
 }
 
 const App = () => {
@@ -61,7 +62,6 @@ const App = () => {
       <Button handleClick={handleBadClick} text={'bad'}/> 
       <Header title = {"statistics"} />
       <Statistics good={good} neutral={neutral} bad={bad} />
-      
     </div>
   )
 }
