@@ -5,6 +5,53 @@ const Entry = (props) => {
   return <div>{props.name} {props.number}</div>
 }
 
+const Entries = ({names}) => {
+  return (
+    <div>
+      {names.map((entry) => <Entry key={entry.name} name={entry.name} number={entry.number} />)}
+    </div>
+  )
+}
+
+const Filter = (props) => {
+  return (
+      <> filter shown with <input
+      value={props.value}
+      onChange={props.onChange} 
+      /> 
+      </>
+  )
+}
+
+const FormInput = ({text,value,handler}) => {
+  return (
+    <div>
+      {text}: <input 
+      value={value}
+      onChange={handler}
+      />
+    </div>
+  )
+}
+
+const AddForm = (props) => {
+  return (
+    <form onSubmit={props.onSubmit}>
+      <FormInput text='name' 
+          value={props.values.name}
+          handler={props.functions.name}
+      />
+      <FormInput text='number'
+          value={props.values.number}
+          handler={props.functions.number}
+      />
+      <div>
+        <button type="submit">add</button>
+      </div>
+    </form>
+  )
+}
+
 const App = () => {
   const [persons, setPersons] = useState([
     { name: 'Arto Hellas', number: '040-123456' },
@@ -65,32 +112,32 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-      filter shown with <input
-      value={newSearch}
-      onChange={handleSearch} 
+
+      <Filter value={newSearch}
+          onChange={handleSearch}
       />
+
       <h2>add a new</h2>
-      <form onSubmit={addName}>
-        <div>
-          name: <input 
-          value={newName}
-          onChange={handleNewName}
-          />
-        </div>
-        <div>
-          number: <input 
-          value={newNumber}
-          onChange={handleNewNumber}
-          />
-        </div>
-        <div>
-          <button type="submit">add</button>
-        </div>
-      </form>
+
+      <AddForm onSubmit={addName}
+          values={
+            {
+              name:newName,
+              number:newNumber
+            }
+          } 
+          functions={
+            {
+              name:handleNewName,
+              number:handleNewNumber
+            }
+          } 
+      />
+
       <h2>Numbers</h2>
-      <div>
-        {namesToShow.map((entry) => <Entry key={entry.name} name={entry.name} number={entry.number} />)}
-      </div>
+
+      <Entries names={namesToShow} />
+      
     </div>
   )
 }
