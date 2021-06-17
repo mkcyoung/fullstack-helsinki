@@ -19,6 +19,14 @@ const App = () => {
   const addName = (event) => {
     // prevent the page from reloading
     event.preventDefault()
+    
+    // Check if name is already in state
+    if (persons.map((entry) => entry.name).includes(newName) ){
+      // return alert
+      window.alert(`${newName} is already added to the phonebook, nerd.`)
+      // Then break
+      return
+    }
     // create new person object with name, etc.
     const personObject = {
       name: newName
