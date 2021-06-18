@@ -2,13 +2,21 @@ import React, { useState, useEffect } from 'react'
 import phonebookService from './services/phonebook';
 
 const Entry = (props) => {
-  return <div>{props.name} {props.number}</div>
-}
-
-const Entries = ({names}) => {
   return (
     <div>
-      {names.map((entry) => <Entry key={entry.name} name={entry.name} number={entry.number} />)}
+      {props.name} 
+      <> </>
+      {props.number}
+      <> </>
+      <button name={props.id} onClick={props.handler}>delete</button>
+    </div>
+  )
+}
+
+const Entries = ({names,handleDelete}) => {
+  return (
+    <div>
+      {names.map((entry) => <Entry key={entry.name} name={entry.name} number={entry.number} id={entry.id} handler={handleDelete} />)}
     </div>
   )
 }
@@ -88,6 +96,19 @@ const App = () => {
     setNewSearch(event.target.value)
   }
 
+  const handleDelete = (event) => {
+    console.log(event.target.name)
+    if (window.confirm(`Are you sure you want to delete ${persons.find(person => person.id == event.target.name).name}?`)){
+      phonebookService
+        .remove(event.target.name)
+        // then I need to update my new persons
+        .then( () => {
+          const updatedBook = persons.filter((entries) => entries.id != event.target.name)
+          setPersons(updatedBook)
+        })
+    }
+  }
+
   const addName = (event) => {
     // prevent the page from reloading
     event.preventDefault()
@@ -145,7 +166,7 @@ const App = () => {
 
       <h2>Numbers</h2>
 
-      <Entries names={namesToShow} />
+      <Entries names={namesToShow} handleDelete={handleDelete} />
       
     </div>
   )
