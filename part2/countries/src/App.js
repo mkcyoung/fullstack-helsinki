@@ -3,6 +3,7 @@ import axios from 'axios'
 import Filter from './components/Filter';
 import ShowCountries from './components/ShowCountries';
 
+
 const App = () => {
   const [ countries, setCountries ] = useState([])
   const [ newSearch, setNewSearch ] = useState('')
@@ -43,7 +44,6 @@ const App = () => {
           handler={handleSearch}
       />
       <ShowCountries countries={countriesToShow} onButtonClick={showButtonClick} />
-
     </div>
   )
 }
