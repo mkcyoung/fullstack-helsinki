@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import axios from 'axios'
+import phonebookService from './services/phonebook';
 
 const Entry = (props) => {
   return <div>{props.name} {props.number}</div>
@@ -60,11 +60,10 @@ const App = () => {
 
   useEffect(() => {
     console.log('effect')
-    axios
-      .get('http://localhost:3001/persons')
-      .then(response => {
-        console.log('promise fulfilled')
-        setPersons(response.data)
+    phonebookService
+      .getAll()
+      .then(initialEntries => {
+        setPersons(initialEntries)
       })
   }, [])
 
@@ -107,16 +106,15 @@ const App = () => {
     }
 
     // post the new entry to the backend 
-    axios
-      .post('http://localhost:3001/persons', personObject)
-      .then(response => {
+    phonebookService
+      .create(personObject)
+      .then(returnedEntry => {
         // update the persons state with new stuff
-        setPersons(persons.concat(response.data))
+        setPersons(persons.concat(returnedEntry))
         // reset hooks
         setNewName('')
         setNewNumber('')
       })
-    
   }
 
 
