@@ -60,11 +60,33 @@ const AddForm = (props) => {
   )
 }
 
+const Notification = ({ message }) => {
+  const notificationStyle = {
+    color: 'green',
+    background: 'lightgrey',
+    fontSize: 20,
+    borderStyle: 'solid',
+    borderRadius: 5,
+    padding: 10,
+    marginBottom: 10
+  }
+  if (message === null) {
+    return null
+  }
+
+  return (
+    <div style={notificationStyle}>
+      {message}
+    </div>
+  )
+}
+
 const App = () => {
   const [ persons, setPersons ] = useState([])
   const [ newName, setNewName ] = useState('')
   const [ newNumber, setNewNumber ] = useState('')
   const [ newSearch, setNewSearch ] = useState('')
+  const [ notification, setNotification ] = useState(null)
 
   useEffect(() => {
     console.log('effect')
@@ -126,35 +148,49 @@ const App = () => {
           .update(changedEntry.id,changedEntry)
           .then( updatedEntry => {
             setPersons(persons.map(person => person.name !== newName ? person : updatedEntry))
+            setNewName('')
+            setNewNumber('')
+            setNotification(`Successfully updated ${changedEntry.name}`)
+            setTimeout(() => {
+              setNotification(null)
+            }, 2000)
           })
       }
-      // else break
-      return
-      
-    }
-    // create new person object with name, etc.
-    const personObject = {
-      name: newName,
-      number: newNumber
-    }
-
-    // post the new entry to the backend 
-    phonebookService
-      .create(personObject)
-      .then(returnedEntry => {
-        // update the persons state with new stuff
-        setPersons(persons.concat(returnedEntry))
-        // reset hooks
+      else{
+        // clear entry
         setNewName('')
         setNewNumber('')
-      })
+      }
+    }
+    else{
+      // create new person object with name, etc.
+      const personObject = {
+        name: newName,
+        number: newNumber
+      }
+      // post the new entry to the backend 
+      phonebookService
+        .create(personObject)
+        .then(returnedEntry => {
+          // update the persons state with new stuff
+          setPersons(persons.concat(returnedEntry))
+          // reset hooks
+          setNewName('')
+          setNewNumber('')
+          setNotification(`Successfully added ${personObject.name}`)
+          setTimeout(() => {
+            setNotification(null)
+          }, 2000)
+        })
+      }
+     
   }
 
 
   return (
     <div>
       <h2>Phonebook</h2>
-
+      <Notification message={notification} />
       <Filter value={newSearch}
           onChange={handleSearch}
       />

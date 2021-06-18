@@ -7,7 +7,7 @@
     },
     {
       "name": "Dan Abramov",
-      "number": "12-43-234345",
+      "number": "1-800-MY-DUDE",
       "id": 3
     },
     {
@@ -19,6 +19,21 @@
       "name": "Mike Hawk",
       "number": "1-800-BEEFCAKE",
       "id": 5
+    },
+    {
+      "name": "Michael Young",
+      "number": "1-800-BADBOY",
+      "id": 6
+    },
+    {
+      "name": "Martha Stewart",
+      "number": "1-800-GET-HIGH",
+      "id": 7
+    },
+    {
+      "name": "Snoop Dog",
+      "number": "1-900-229-1092",
+      "id": 8
     }
   ]
 }
