@@ -1,56 +1,38 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
-
-const Entry = (props) => {
-  return <div>{props.name} {props.number}</div>
-}
-
-const Entries = ({names}) => {
-  return (
-    <div>
-      {names.map((entry) => <Entry key={entry.name} name={entry.name} number={entry.number} />)}
-    </div>
-  )
-}
-
-const Filter = ({ value, handler }) => {
-  return (
-      <> find countries <input
-      value={value}
-      onChange={handler} 
-      /> 
-      </>
-  )
-}
-
+import Filter from './components/Filter';
+import ShowCountries from './components/ShowCountries';
 
 const App = () => {
-  const [ persons, setPersons ] = useState([])
+  const [ countries, setCountries ] = useState([])
   const [ newName, setNewName ] = useState('')
   const [ newNumber, setNewNumber ] = useState('')
   const [ newSearch, setNewSearch ] = useState('')
 
-  // useEffect(() => {
-  //   console.log('effect')
-  //   axios
-  //     .get('http://localhost:3001/persons')
-  //     .then(response => {
-  //       console.log('promise fulfilled')
-  //       setPersons(response.data)
-  //     })
-  // }, [])
+  useEffect(() => {
+    console.log('effect')
+    axios
+      .get('https://restcountries.eu/rest/v2/all')
+      .then(response => {
+        console.log('promise fulfilled')
+        setCountries(response.data)
+        console.log(response.data)
+      })
+  }, [])
 
+
+  // Returns all countries matching some part of input text
   const countriesToShow = newSearch === ''
-    ? persons
-    : persons.filter( (entry) => {
-      return entry.name.toLowerCase().includes(newSearch.toLowerCase())
+        ? [] 
+        : countries.filter( (country) => {
+      return country.name.toLowerCase().includes(newSearch.toLowerCase())
     })
+  
 
   const handleSearch = (event) => {
     console.log(event.target.value)
     setNewSearch(event.target.value)
   }
-
 
   return (
     <div>
@@ -58,6 +40,8 @@ const App = () => {
           value={newSearch}
           handler={handleSearch}
       />
+      <ShowCountries countries={countriesToShow} />
+
     </div>
   )
 }
