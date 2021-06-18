@@ -60,9 +60,9 @@ const AddForm = (props) => {
   )
 }
 
-const Notification = ({ message }) => {
+const Notification = ({ type,message }) => {
   const notificationStyle = {
-    color: 'green',
+    color: type ? 'red' : 'green',
     background: 'lightgrey',
     fontSize: 20,
     borderStyle: 'solid',
@@ -86,7 +86,7 @@ const App = () => {
   const [ newName, setNewName ] = useState('')
   const [ newNumber, setNewNumber ] = useState('')
   const [ newSearch, setNewSearch ] = useState('')
-  const [ notification, setNotification ] = useState(null)
+  const [ notification, setNotification ] = useState([null,null])
 
   useEffect(() => {
     console.log('effect')
@@ -150,9 +150,21 @@ const App = () => {
             setPersons(persons.map(person => person.name !== newName ? person : updatedEntry))
             setNewName('')
             setNewNumber('')
-            setNotification(`Successfully updated ${changedEntry.name}`)
+            setNotification([0,`Successfully updated ${changedEntry.name}`])
             setTimeout(() => {
-              setNotification(null)
+              setNotification([null,null])
+            }, 2000)
+          })
+          .catch(error => {
+            // Delete person from state (it was already delete from server)
+            setPersons(persons.filter(n => n.name !== newName))
+            // Reset name and number
+            setNewName('')
+            setNewNumber('')
+            // Set notification and timeout
+            setNotification([1,`Information of ${changedEntry.name} has already been removed from server`])
+            setTimeout(() => {
+              setNotification([null,null])
             }, 2000)
           })
       }
@@ -177,9 +189,9 @@ const App = () => {
           // reset hooks
           setNewName('')
           setNewNumber('')
-          setNotification(`Successfully added ${personObject.name}`)
+          setNotification([0,`Successfully added ${personObject.name}`])
           setTimeout(() => {
-            setNotification(null)
+            setNotification([null,null])
           }, 2000)
         })
       }
@@ -190,7 +202,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-      <Notification message={notification} />
+      <Notification type={notification[0]} message={notification[1]} />
       <Filter value={newSearch}
           onChange={handleSearch}
       />
