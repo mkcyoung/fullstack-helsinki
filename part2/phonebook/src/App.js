@@ -105,11 +105,18 @@ const App = () => {
       name: newName,
       number: newNumber
     }
-    // update the persons state with new stuff
-    setPersons(persons.concat(personObject))
-    // reset the new name
-    setNewName('')
-    setNewNumber('')
+
+    // post the new entry to the backend 
+    axios
+      .post('http://localhost:3001/persons', personObject)
+      .then(response => {
+        // update the persons state with new stuff
+        setPersons(persons.concat(response.data))
+        // reset hooks
+        setNewName('')
+        setNewNumber('')
+      })
+    
   }
 
 
