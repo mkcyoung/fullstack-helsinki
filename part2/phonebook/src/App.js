@@ -115,10 +115,22 @@ const App = () => {
     
     // Check if name is already in state
     if (persons.map((entry) => entry.name).includes(newName) ){
-      // return alert
-      window.alert(`${newName} is already added to the phonebook, nerd.`)
-      // Then break
+      // confirm if we want to change number
+      if (window.confirm(`${newName} is already added to the phonebook, nerd. Replace the old number with a new one?`)
+      ){
+        // create new person object with name, etc.
+        const entry = persons.find((person) => person.name === newName )
+        const changedEntry = {...entry, number: newNumber}
+
+        phonebookService
+          .update(changedEntry.id,changedEntry)
+          .then( updatedEntry => {
+            setPersons(persons.map(person => person.name !== newName ? person : updatedEntry))
+          })
+      }
+      // else break
       return
+      
     }
     // create new person object with name, etc.
     const personObject = {
