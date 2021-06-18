@@ -5,8 +5,6 @@ import ShowCountries from './components/ShowCountries';
 
 const App = () => {
   const [ countries, setCountries ] = useState([])
-  const [ newName, setNewName ] = useState('')
-  const [ newNumber, setNewNumber ] = useState('')
   const [ newSearch, setNewSearch ] = useState('')
 
   useEffect(() => {
@@ -33,6 +31,10 @@ const App = () => {
     console.log(event.target.value)
     setNewSearch(event.target.value)
   }
+  const showButtonClick = (event) => {
+    console.log(event.target.name)
+    setNewSearch(event.target.name)
+}
 
   return (
     <div>
@@ -40,7 +42,7 @@ const App = () => {
           value={newSearch}
           handler={handleSearch}
       />
-      <ShowCountries countries={countriesToShow} />
+      <ShowCountries countries={countriesToShow} onButtonClick={showButtonClick} />
 
     </div>
   )

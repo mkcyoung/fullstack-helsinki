@@ -1,5 +1,13 @@
 import React from 'react';
 
+const Button = ({text, country, handler}) => {
+    return (
+        <button name={country.name} onClick={handler}>
+            {text}
+        </button>
+    )
+}
+
 const ShowCountry = ({country}) => {
     return (
       <div>
@@ -15,7 +23,7 @@ const ShowCountry = ({country}) => {
     )
   }
   
-  const ShowCountries = ({countries}) => {
+  const ShowCountries = ({countries,onButtonClick}) => {
     // If > 10, prompt to be more specific 
     if (countries.length > 10){
       return <div>{'Too many countries, be more specific'}</div>
@@ -24,7 +32,9 @@ const ShowCountry = ({country}) => {
     else if (countries.length > 1){
       return (
         <>
-            {countries.map( (countries) => < div key={countries.name}> {countries.name} </div>)}  
+            {countries.map( (country) => < div key={country.name}> {country.name} 
+                <Button text={'show'} country={country} handler={onButtonClick} /> 
+                </div>)}  
         </>
       )
     }
