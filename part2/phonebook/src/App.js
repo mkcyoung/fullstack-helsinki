@@ -16,7 +16,7 @@ const Entry = (props) => {
 const Entries = ({names,handleDelete}) => {
   return (
     <div>
-      {names.map((entry) => <Entry key={entry.name} name={entry.name} number={entry.number} id={entry.id} handler={handleDelete} />)}
+      {names.map((entry) => <Entry key={entry.id} name={entry.name} number={entry.number} id={entry.id} handler={handleDelete} />)}
     </div>
   )
 }
