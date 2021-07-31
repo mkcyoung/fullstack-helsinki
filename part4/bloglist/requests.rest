@@ -1,0 +1,9 @@
+POST http://localhost:3003/api/blogs
+Content-Type: application/json
+
+{
+    "title": "Cool Guy, Cool Stuff 2",
+    "author": "Cool Guy 2",
+    "url": "www.coolstuff2.com",
+    "likes": 100 
+}
