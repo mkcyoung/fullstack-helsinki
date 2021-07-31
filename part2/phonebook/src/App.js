@@ -156,16 +156,25 @@ const App = () => {
             }, 2000)
           })
           .catch(error => {
-            // Delete person from state (it was already delete from server)
-            setPersons(persons.filter(n => n.name !== newName))
-            // Reset name and number
-            setNewName('')
-            setNewNumber('')
-            // Set notification and timeout
-            setNotification([1,`Information of ${changedEntry.name} has already been removed from server`])
-            setTimeout(() => {
-              setNotification([null,null])
-            }, 2000)
+            console.log(error.response.status)
+            if (error.response.status === 400){
+              setNotification([1,error.response.data.error])
+              setTimeout(() => {
+                setNotification([null,null])
+              }, 2000)
+            }
+            else{
+              // Delete person from state (it was already delete from server)
+              setPersons(persons.filter(n => n.name !== newName))
+              // Reset name and number
+              setNewName('')
+              setNewNumber('')
+              // Set notification and timeout
+              setNotification([1,`Information of ${changedEntry.name} has already been removed from server`])
+              setTimeout(() => {
+                setNotification([null,null])
+              }, 2000)
+            }
           })
       }
       else{
@@ -194,6 +203,14 @@ const App = () => {
             setNotification([null,null])
           }, 2000)
         })
+        .catch(error => {
+          setNotification([1,error.response.data.error])
+          setTimeout(() => {
+            setNotification([null,null])
+          }, 2000)
+        }
+
+        )
       }
      
   }
