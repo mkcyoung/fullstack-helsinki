@@ -7,7 +7,8 @@
     "start": "node index.js",
     "dev": "nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "test": "jest --verbose"
   },
   "author": "Michael Young",
   "license": "MIT",
@@ -18,6 +19,10 @@
     "mongoose": "^5.13.5"
   },
   "devDependencies": {
+    "jest": "^27.0.6",
     "nodemon": "^2.0.12"
+  },
+  "jest": {
+    "testEnvironment": "node"
   }
 }
