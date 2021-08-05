@@ -8,11 +8,7 @@ const _ = require('lodash')
 
 beforeEach(async () => {
     await Blog.deleteMany({})
-
-    const blogObjects = helper.initBlogs
-        .map(blog => new Blog(blog))
-    const promiseArray = blogObjects.map(blog => blog.save())
-    await Promise.all(promiseArray)
+    await Blog.insertMany(helper.initBlogs)
 })
 
 
@@ -68,8 +64,10 @@ test('if missing title or url, we get a 400 status code returned', async () => {
         .expect(400)
         .expect('Content-Type', /application\/json/)
 
-})
+    const blogsAtEnd = await helper.blogsInDB()
+    expect(blogsAtEnd).toHaveLength(helper.initBlogs.length)
 
+})
 
 
 

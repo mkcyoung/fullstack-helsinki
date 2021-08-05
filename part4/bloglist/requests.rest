@@ -6,3 +6,6 @@ Content-Type: application/json
     "url": "www.coolstuff3.com",
     "likes": 10 
 }
+
+###
+DELETE http://localhost:3003/api/blogs/5a422bc61b54a676234d17fc
