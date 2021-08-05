@@ -51,11 +51,24 @@ const initBlogs = [
     }  
 ]
 
+const newBlog = {
+    title: 'Alright Alright Alright',
+    author: 'Mathew McConaughey',
+    url: 'www.mathewmcconaughey.org',
+    likes: 100000
+}
+
+const blogWithNoLikes = {
+    title: 'Alright Alright Alright',
+    author: 'Mathew McConaughey',
+    url: 'www.mathewmcconaughey.org'
+}
+
 const blogsInDB = async () => {
     const blogs = await Blog.find({})
     return blogs.map(blog => blog.toJSON())
 }
 
 module.exports = {
-    initBlogs, blogsInDB
+    initBlogs, blogsInDB, newBlog, blogWithNoLikes
 }

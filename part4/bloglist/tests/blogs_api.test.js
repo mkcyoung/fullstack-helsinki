@@ -4,6 +4,7 @@ const helper = require('./test_helper')
 const app = require('../app')
 const Blog = require('../models/blog')
 const api = supertest(app)
+const _ = require('lodash')
 
 beforeEach(async () => {
     await Blog.deleteMany({})
@@ -31,21 +32,26 @@ test('Verify that the unique identifier is id not _id', async () => {
 })
 
 test('Post request successfully creates new blog post', async () => {
-    const newBlog = {
-        title: 'Alright Alright Alright',
-        author: 'Mathew McConaughey',
-        url: 'www.mathewmcconaughey.org',
-        likes: 100000
-    }
 
     await api
         .post('/api/blogs')
-        .send(newBlog)
+        .send(helper.newBlog)
         .expect(201)
         .expect('Content-Type', /application\/json/)
 
     const blogsAtEnd = await helper.blogsInDB()
     expect(blogsAtEnd).toHaveLength(helper.initBlogs.length + 1)
+})
+
+test('Likes initialize to 0 if none are provided', async () => {
+
+    const response = await api
+        .post('/api/blogs')
+        .send(helper.blogWithNoLikes)
+        .expect(201)
+        .expect('Content-Type', /application\/json/)
+
+    expect(response.body.likes).toBe(0)
 })
 
 
