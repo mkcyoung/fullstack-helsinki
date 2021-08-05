@@ -30,6 +30,25 @@ test('Verify that the unique identifier is id not _id', async () => {
     response.body.map(blog => expect(blog.id).toBeDefined())
 })
 
+test('Post request successfully creates new blog post', async () => {
+    const newBlog = {
+        title: 'Alright Alright Alright',
+        author: 'Mathew McConaughey',
+        url: 'www.mathewmcconaughey.org',
+        likes: 100000
+    }
+
+    await api
+        .post('/api/blogs')
+        .send(newBlog)
+        .expect(201)
+        .expect('Content-Type', /application\/json/)
+
+    const blogsAtEnd = await helper.blogsInDB()
+    expect(blogsAtEnd).toHaveLength(helper.initBlogs.length + 1)
+})
+
+
 
 
 
