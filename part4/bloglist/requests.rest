@@ -2,7 +2,6 @@ POST http://localhost:3003/api/blogs
 Content-Type: application/json
 
 {
-    "title": "Cool Guy, Cool Stuff 3",
     "author": "Cool Guy 3",
     "url": "www.coolstuff3.com",
     "likes": 10 

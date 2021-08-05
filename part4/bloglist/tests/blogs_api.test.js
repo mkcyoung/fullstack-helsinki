@@ -54,9 +54,21 @@ test('Likes initialize to 0 if none are provided', async () => {
     expect(response.body.likes).toBe(0)
 })
 
+test('if missing title or url, we get a 400 status code returned', async () => {
 
+    await api
+        .post('/api/blogs')
+        .send(helper.blogWithNoTitle)
+        .expect(400)
+        .expect('Content-Type', /application\/json/)
+    
+    await api
+        .post('/api/blogs')
+        .send(helper.blogWithNoUrl)
+        .expect(400)
+        .expect('Content-Type', /application\/json/)
 
-
+})
 
 
 
