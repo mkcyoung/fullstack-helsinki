@@ -50,8 +50,8 @@ Content-Type: application/json
 Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InNkb2czIiwiaWQiOiI2MTBkNmYyMTkxOWM0N2RiNTg2ZjUzMDQiLCJpYXQiOjE2MjgyNzIwOTZ9.bmrfTPVWS0LzWGUbaU6RgRemoqaZqVTfhvObNUrzo_w
 
 {
-    "title": "cool guy cool stuff",
+    "title": "cool guy cool stuff 10",
     "author": "Cool Guy 3",
-    "url": "www.coolstuff3.com",
+    "url": "www.coolstuff10.com",
     "likes": 10
 }
