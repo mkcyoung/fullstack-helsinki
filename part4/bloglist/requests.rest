@@ -6,11 +6,11 @@ Content-Type: application/json
     "author": "Cool Guy 3",
     "url": "www.coolstuff3.com",
     "likes": 10, 
-    "userId": "610c9f52b840cad43aa61972"
+    "userId": "610d6eff919c47db586f52ff"
 }
 
 ###
-DELETE http://localhost:3003/api/blogs/5a422bc61b54a676234d17fc
+DELETE http://localhost:3003/api/blogs/610ca10fdd5cd3d495cbeea3
 
 ###
 PUT http://localhost:3003/api/blogs/5a422bc61b54a676234d17fc
@@ -28,8 +28,8 @@ POST http://localhost:3003/api/users
 Content-Type: application/json
 
 {
-    "notes": [],
-    "username": "mstewart",
-    "name": "Martha Stewart",
+    "blogs": [],
+    "username": "sdog3",
+    "name": "Snoop Dog",
     "password": "smokeweed"
 }
