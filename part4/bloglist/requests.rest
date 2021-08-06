@@ -10,7 +10,7 @@ Content-Type: application/json
 }
 
 ###
-DELETE http://localhost:3003/api/blogs/610d786ed3ff55df75596281
+DELETE http://localhost:3003/api/blogs/610d762980438bde68cdef89
 Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InNkb2czIiwiaWQiOiI2MTBkNmYyMTkxOWM0N2RiNTg2ZjUzMDQiLCJpYXQiOjE2MjgyNzIwOTZ9.bmrfTPVWS0LzWGUbaU6RgRemoqaZqVTfhvObNUrzo_w
 
 
@@ -52,8 +52,8 @@ Content-Type: application/json
 Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InNkb2czIiwiaWQiOiI2MTBkNmYyMTkxOWM0N2RiNTg2ZjUzMDQiLCJpYXQiOjE2MjgyNzIwOTZ9.bmrfTPVWS0LzWGUbaU6RgRemoqaZqVTfhvObNUrzo_w
 
 {
-    "title": "cool guy cool stuff 10",
+    "title": "cool guy cool stuff 15",
     "author": "Cool Guy 3",
-    "url": "www.coolstuff10.com",
+    "url": "www.coolstuff15.com",
     "likes": 10
 }
