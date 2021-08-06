@@ -2,9 +2,11 @@ POST http://localhost:3003/api/blogs
 Content-Type: application/json
 
 {
+    "title": "cool guy cool stuff",
     "author": "Cool Guy 3",
     "url": "www.coolstuff3.com",
-    "likes": 10 
+    "likes": 10, 
+    "userId": "610c9f52b840cad43aa61972"
 }
 
 ###
@@ -19,4 +21,15 @@ Content-Type: application/json
     "author": "Robert C. Martin",
     "url": "http://blog.cleancoder.com/uncle-bob/2016/05/01/TypeWars.html",
     "likes": 10
+}
+
+###
+POST http://localhost:3003/api/users
+Content-Type: application/json
+
+{
+    "notes": [],
+    "username": "mstewart",
+    "name": "Martha Stewart",
+    "password": "smokeweed"
 }
