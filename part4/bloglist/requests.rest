@@ -31,9 +31,9 @@ Content-Type: application/json
 
 {
     "blogs": [],
-    "username": "sdog3",
-    "name": "Snoop Dog",
-    "password": "smokeweed"
+    "username": "myoung",
+    "name": "Michael Young",
+    "password": "password"
 }
 
 
