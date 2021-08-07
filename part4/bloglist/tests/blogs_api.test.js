@@ -16,6 +16,21 @@ describe('testing basic backend functionality', () => {
     beforeEach(async () => {
         await Blog.deleteMany({})
         await Blog.insertMany(helper.initBlogs)
+
+        await User.deleteMany({})
+  
+        const newUser = {
+            username: 'mluukkai',
+            name: 'Matti Luukkainen',
+            password: 'salainen',
+          }
+      
+        await api
+            .post('/api/users')
+            .send(newUser)
+            .expect(200)
+            .expect('Content-Type', /application\/json/)
+    
     })
 
     test('get request returns correct amount of blogs in json format', async () => {
@@ -34,15 +49,53 @@ describe('testing basic backend functionality', () => {
     })
     
     test('Post request successfully creates new blog post', async () => {
-    
+
+        //Need to login with a user
+        const user = await User.findOne()
+        console.log(user)
+
+        const response = await api
+            .post('/api/login')
+            .send({username: user.username, password:'salainen'})
+            .expect(200)
+            .expect('Content-Type', /application\/json/)
+
+        const token = response.body.token
+
         await api
             .post('/api/blogs')
             .send(helper.newBlog)
+            .set('Authorization',`bearer ${token}`)
             .expect(201)
             .expect('Content-Type', /application\/json/)
     
         const blogsAtEnd = await helper.blogsInDB()
         expect(blogsAtEnd).toHaveLength(helper.initBlogs.length + 1)
+    })
+
+    test('Post request fails to create new blog post if token not provided', async () => {
+
+        //Need to login with a user
+        const user = await User.findOne()
+        console.log(user)
+
+        const response = await api
+            .post('/api/login')
+            .send({username: user.username, password:'salainen'})
+            .expect(200)
+            .expect('Content-Type', /application\/json/)
+
+        const token = response.body.token
+
+        await api
+            .post('/api/blogs')
+            .send(helper.newBlog)
+            // .set('Authorization',`bearer ${token}`)
+            .expect(401)
+            .expect('Content-Type', /application\/json/)
+    
+        const blogsAtEnd = await helper.blogsInDB()
+        expect(blogsAtEnd).toHaveLength(helper.initBlogs.length)
     })
     
     test('Likes initialize to 0 if none are provided', async () => {
