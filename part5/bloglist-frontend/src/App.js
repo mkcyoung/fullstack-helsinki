@@ -16,31 +16,17 @@ const App = () => {
     )  
   }, [])
 
-  const handleLogin = async (event) => {
-    event.preventDefault()
-    try {
-      const user = await loginService.login({
-        username, password,
-      })
+  useEffect(() => {
+    const loggedUserJSON = window.localStorage.getItem('loggedNoteappUser')
+    if (loggedUserJSON) {
+      const user = JSON.parse(loggedUserJSON)
       setUser(user)
-      setUsername('')
-      setPassword('')
-    } catch (exception) {
-      console.log("error",exception)
-      // setErrorMessage('Wrong credentials')
-      // setTimeout(() => {
-      //   setErrorMessage(null)
-      // }, 5000)
+      // noteService.setToken(user.token)
     }
+  }, [])
 
-    console.log('logging in with', username, password)
-  }
-
-  if (user === null) {
-    return (
-      <div>
-        <h2>Log in to application</h2>
-          <form onSubmit={handleLogin}>
+  const loginForm = () => (
+    <form onSubmit={handleLogin}>
             <div>
               username
                 <input
@@ -61,18 +47,64 @@ const App = () => {
             </div>
           <button type="submit">login</button>
         </form>
-      </div>
-    )
+
+  )
+
+  const handleLogin = async (event) => {
+    event.preventDefault()
+    try {
+      const user = await loginService.login({
+        username, password,
+      })
+
+      window.localStorage.setItem(
+        'loggedNoteappUser', JSON.stringify(user)
+      ) 
+
+      setUser(user)
+      setUsername('')
+      setPassword('')
+    } catch (exception) {
+      console.log("error",exception)
+      // setErrorMessage('Wrong credentials')
+      // setTimeout(() => {
+      //   setErrorMessage(null)
+      // }, 5000)
+    }
+
+    console.log('logging in with', username, password)
+  }
+
+  const handleLogout = () => {
+    console.log("logging out",user.username)
+    // clear storage
+    window.localStorage.clear()
+    // set user back to null
+    setUser(null)
+    setUsername('')
+    setPassword('')
   }
 
   return (
-    <div>
-      <h2>blogs</h2>
-      <p>{user.name} logged-in</p>
-      {blogs.map(blog =>
-        <Blog key={blog.id} blog={blog} />
-      )}
-    </div>
+    <>
+      {user === null ?
+        <div>
+          <h2>Log in to application</h2> 
+          {loginForm()}
+        </div> :
+        <div>
+          <h2>blogs</h2>
+          <p>{user.name} logged-in 
+            <button onClick={() => handleLogout()}>logout</button> 
+          </p>
+          
+          {blogs.map(blog =>
+            <Blog key={blog.id} blog={blog} />
+          )}
+        </div>
+      }
+    </>
+    
   )
 }
 
