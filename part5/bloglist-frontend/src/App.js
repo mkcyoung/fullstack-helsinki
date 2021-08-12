@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import Blog from './components/Blog'
 import Login from './components/Login'
 import BlogForm from './components/BlogForm'
+import Togglable from './components/Togglable'
 import Notification from './components/Notification'
 import blogService from './services/blogs'
 import loginService from './services/login'
@@ -12,12 +13,9 @@ const App = () => {
   const [username, setUsername] = useState('') 
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
+  const blogFormRef = useRef()
 
-  // Really not sure if I need this...
-  const [title, setTitle] = useState('') 
-  const [author, setAuthor] = useState('')
-  const [url, setUrl] = useState('') 
-
+  // Notification state
   const [notification, setNotification] = useState([null,'error'])
 
   useEffect(() => {
@@ -27,11 +25,11 @@ const App = () => {
   }, [])
 
   useEffect(() => {
-    const loggedUserJSON = window.localStorage.getItem('loggedNoteappUser')
+    const loggedUserJSON = window.localStorage.getItem('loggedBlogappUser')
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON)
       setUser(user)
-      // noteService.setToken(user.token)
+      blogService.setToken(user.token)
     }
   }, [])
 
@@ -44,44 +42,23 @@ const App = () => {
     setPassword(event.target.value)
   } 
 
-  const handleTitle = (event) => {
-    setTitle(event.target.value)
-  } 
-
-  const handleAuthor = (event) => {
-    setAuthor(event.target.value)
-  } 
-
-  const handleUrl = (event) => {
-    setUrl(event.target.value)
-  } 
-
-  const addBlog = async (event) => {
-    event.preventDefault()
+  // this is passed to the BlogForm component
+  const addBlog = async (blogObject) => {
     try {
-      const blogObject = {
-        title: title,
-        author: author,
-        url: url,
-      }
-  
-      const newBlog = await blogService.create(blogObject)
-      setBlogs(blogs.concat(newBlog))
-      setNotification([`A new blog "${title}" by "${author}" was added.`,'success'])
-      setTimeout(() => {
-        setNotification([null,'error'])
-      }, 2000)
-
-      setTitle('')
-      setAuthor('')
-      setUrl('')
+        blogFormRef.current.toggleVisibility()
+        const newBlog = await blogService.create(blogObject)
+        console.log(newBlog)
+        setBlogs(blogs.concat(newBlog))
+        setNotification([`A new blog "${newBlog.title}" by "${newBlog.author}" was added.`,'success'])
+        setTimeout(() => {
+          setNotification([null,'error'])
+        }, 2000)
     }
     catch (exception) {
-      setNotification([exception,'error'])
-      setTimeout(() => {
-        setNotification([null,'error'])
-      }, 2000)
-
+        setNotification([exception,'error'])
+        setTimeout(() => {
+          setNotification([null,'error'])
+        }, 2000)
     }
     
   }
@@ -94,7 +71,7 @@ const App = () => {
       })
 
       window.localStorage.setItem(
-        'loggedNoteappUser', JSON.stringify(user)
+        'loggedBlogappUser', JSON.stringify(user)
       ) 
 
       blogService.setToken(user.token)
@@ -151,17 +128,9 @@ const App = () => {
           <p>{user.name} logged-in 
             <button onClick={() => handleLogout()}>logout</button> 
           </p>
-          <h2>create new</h2>
-          <BlogForm
-            title={title}
-            author={author}
-            url={url}
-            handleSubmit={addBlog}
-            handleTitle={handleTitle}
-            handleAuthor={handleAuthor}
-            handleUrl={handleUrl}
-          />
-          
+          <Togglable buttonLabel="create new blog" ref={blogFormRef} >
+            <BlogForm createBlog={addBlog} />
+          </Togglable>
           {blogs.map(blog =>
             <Blog key={blog.id} blog={blog} />
           )}
