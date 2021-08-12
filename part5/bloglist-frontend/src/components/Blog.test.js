@@ -3,7 +3,9 @@ import '@testing-library/jest-dom/extend-expect'
 import { render, fireEvent } from '@testing-library/react'
 import Blog from './Blog'
 
-test('renders content', () => {
+
+
+describe('<Blog />', () => {
   const blog = {
     title: 'Component testing is done with react-testing-library',
     author: 'React guy',
@@ -20,14 +22,49 @@ test('renders content', () => {
 
   const mockUpdate = jest.fn()
 
-  const component = render(
-    <Blog blog={blog} user={user} deleteBlog={mockDelete} updateBlogs={mockUpdate} />
-  )
+  let component
 
-  expect(component.container.querySelector('.defaultInfo')
-  ).toBeDefined()
+  beforeEach(() => {
+    component = render(
+      <Blog blog={blog} user={user} deleteBlog={mockDelete} updateBlogs={mockUpdate} />
+    )
+  })
 
-  expect(component.container.querySelector('.moreInfo')
-  ).toBe(null)
+  test('renders default content properly', () => {
+
+    expect(component.container.querySelector('.defaultInfo')
+    ).toBeDefined()
+
+    expect(component.container.querySelector('.moreInfo')
+    ).toBe(null)
+
+  })
+
+  test('shows more blog info when view button is clicked', () => {
+
+    const button = component.getByText('view')
+    fireEvent.click(button)
+
+    expect(component.container.querySelector('.defaultInfo')
+    ).toBeDefined()
+
+    expect(component.container.querySelector('.moreInfo')
+    ).toBeDefined()
+
+  })
+
+  test('clicking like button calls event handler', () => {
+
+    const viewButton = component.getByText('view')
+    fireEvent.click(viewButton)
+    const likeButton = component.getByText('like')
+
+    for (let i = 0; i < 2; i++){
+      fireEvent.click(likeButton)
+    }
+
+    expect(mockUpdate.mock.calls).toHaveLength(2)
+
+  })
 
 })

@@ -124,9 +124,11 @@ const App = () => {
     }, 2000)
   }
 
-  const updateBlogs = async () => {
+  const updateBlogs = async (id,newBlog) => {
+    await blogService.update( id, newBlog )
     setBlogs(await blogService.getAll())
   }
+
 
   return (
     <>

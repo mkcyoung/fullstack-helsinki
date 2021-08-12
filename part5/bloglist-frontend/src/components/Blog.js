@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import blogService from '../services/blogs'
 
 
 const Blog = ({ blog, user, deleteBlog, updateBlogs }) => {
@@ -22,7 +21,6 @@ const Blog = ({ blog, user, deleteBlog, updateBlogs }) => {
   const likeBlog = async () => {
 
     const newBlog = {
-      // user: blog.user ? blog.user.id : 'No user',
       likes: likes + 1,
       author: blog.author,
       title: blog.title,
@@ -31,10 +29,9 @@ const Blog = ({ blog, user, deleteBlog, updateBlogs }) => {
     if (blog.user) {
       newBlog.user = blog.user.id
     }
-    await blogService.update( blog.id, newBlog )
-
     setLikes(likes + 1)
-    updateBlogs()
+    updateBlogs(blog.id, newBlog)
+
   }
 
   const removeBlog = async (event) => {
