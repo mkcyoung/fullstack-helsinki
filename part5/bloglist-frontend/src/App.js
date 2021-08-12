@@ -47,8 +47,9 @@ const App = () => {
     try {
       blogFormRef.current.toggleVisibility()
       const newBlog = await blogService.create(blogObject)
-      console.log(newBlog)
-      setBlogs(blogs.concat(newBlog))
+      const updatedBlog = await blogService.getById(newBlog.id)
+      console.log(updatedBlog)
+      setBlogs(blogs.concat(updatedBlog))
       setNotification([`A new blog "${newBlog.title}" by "${newBlog.author}" was added.`,'success'])
       setTimeout(() => {
         setNotification([null,'error'])
