@@ -60,7 +60,23 @@ const App = () => {
           setNotification([null,'error'])
         }, 2000)
     }
-    
+  }
+
+  const removeBlog = async (blog) => {
+    try {
+      await blogService.remove(blog.id)
+      setBlogs(blogs.filter(n => n.id !== blog.id))
+      setNotification([`"${blog.title}" successfully deleted.`,'success'])
+        setTimeout(() => {
+          setNotification([null,'error'])
+        }, 2000)
+    }
+    catch (exception) {
+      setNotification([exception,'error'])
+        setTimeout(() => {
+          setNotification([null,'error'])
+        }, 2000)
+    }
   }
 
   const handleLogin = async (event) => {
@@ -132,8 +148,8 @@ const App = () => {
             <BlogForm createBlog={addBlog} />
           </Togglable>
           {blogs.map(blog =>
-            <Blog key={blog.id} blog={blog} />
-          )}
+            <Blog key={blog.id} blog={blog} user={user} deleteBlog={removeBlog} />
+          ).sort( (a, b) => b.props.blog.likes - a.props.blog.likes )}
         </div>
       }
     </>
