@@ -48,7 +48,6 @@ const App = () => {
       blogFormRef.current.toggleVisibility()
       const newBlog = await blogService.create(blogObject)
       const updatedBlog = await blogService.getById(newBlog.id)
-      console.log(updatedBlog)
       setBlogs(blogs.concat(updatedBlog))
       setNotification([`A new blog "${newBlog.title}" by "${newBlog.author}" was added.`,'success'])
       setTimeout(() => {
@@ -125,6 +124,10 @@ const App = () => {
     }, 2000)
   }
 
+  const updateBlogs = async () => {
+    setBlogs(await blogService.getAll())
+  }
+
   return (
     <>
       {user === null ?
@@ -149,7 +152,7 @@ const App = () => {
             <BlogForm createBlog={addBlog} />
           </Togglable>
           {blogs.map(blog =>
-            <Blog key={blog.id} blog={blog} user={user} deleteBlog={removeBlog} />
+            <Blog key={blog.id} blog={blog} user={user} deleteBlog={removeBlog} updateBlogs={updateBlogs}/>
           ).sort( (a, b) => b.props.blog.likes - a.props.blog.likes )}
         </div>
       }
