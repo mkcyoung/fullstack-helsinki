@@ -47,20 +47,20 @@ const Blog = ({ blog, user, deleteBlog, updateBlogs }) => {
   return (
     <>
       {visible ?
-        <div style={blogStyle}>
-          <div>
+        <div style={blogStyle} className='blog'>
+          <div className='defaultInfo'>
             {blog.title} {blog.author}
             <button onClick={ toggleBlog }>hide</button>
           </div>
-          <div>
+          <div className='moreInfo'>
             {blog.url} <br />
             likes: {likes} <button onClick={ likeBlog }>like</button> <br />
             {blog.user ? blog.user.name : 'No user'} <br />
             { blog.user && user.name === blog.user.name ? <button onClick={ removeBlog }>remove</button> : 'butt' }
           </div>
         </div> :
-        <div style={blogStyle}>
-          <div>
+        <div style={blogStyle} className='blog'>
+          <div className='defaultInfo'>
             {blog.title} {blog.author}
             <button onClick={ toggleBlog }>view</button>
           </div>
