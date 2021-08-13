@@ -22,10 +22,13 @@ const asObject = (anecdote) => {
 const initialState = anecdotesAtStart.map(asObject)
 
 // action creator for voting
-export const upVote = (id) => {
-  return {
-    type:'VOTE',
-    id: id
+export const upVote = (anecdote) => {
+  return async dispatch => {
+    await anecdoteService.updateVote(anecdote)
+    dispatch({
+      type:'VOTE',
+      id: anecdote.id
+    })
   }
 }
 

@@ -9,10 +9,11 @@ const AnecdoteList = (props) => {
     })
     const dispatch = useDispatch()
   
-    const vote = (id) => {
-      console.log('vote', id)
-      dispatch(upVote(id))
-      dispatch(setNotification(`voted for "${anecdotes.filter(anecdote => anecdote.id === id)[0].content}"`))
+    const vote = (anecdote) => {
+    //   console.log('vote', id)
+      dispatch(upVote(anecdote))
+      
+      dispatch(setNotification(`voted for "${anecdote.content}"`))
         setTimeout(() => {
             dispatch(removeNotification())},
             5000)
@@ -27,7 +28,7 @@ const AnecdoteList = (props) => {
                 </div>
                 <div>
                     has {anecdote.votes}
-                    <button onClick={() => vote(anecdote.id)}>vote</button>
+                    <button onClick={() => vote(anecdote)}>vote</button>
                 </div>
                 </div>
                 ).sort((a,b) => b.props.children[1].props.children[1] - a.props.children[1].props.children[1]  )}

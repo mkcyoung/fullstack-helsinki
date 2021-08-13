@@ -10,7 +10,7 @@ const Filter = (props) => {
         event.preventDefault()
         // input-field value is in variable event.target.value
         const content = event.target.value
-        dispatch(setFilter(content))
+        dispatch(setFilter(content.toLowerCase()))
 
     }
     const style = {
