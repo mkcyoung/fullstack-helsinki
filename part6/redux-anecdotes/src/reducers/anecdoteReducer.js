@@ -27,6 +27,17 @@ export const upVote = (id) => {
   }
 }
 
+// action creator for creating a new anecdote
+export const createAnecdote = (content) => {
+  return {
+    type: 'ADD',
+    data: {
+      content,
+      id: getId()
+    }
+  }
+}
+
 const reducer = (state = initialState, action) => {
   console.log('state now: ', state)
   console.log('action', action)
@@ -39,6 +50,14 @@ const reducer = (state = initialState, action) => {
         votes: anecdoteToChange.votes + 1
       }
       return state.map(a => a.id === id ? changedAnecdote : a)
+    }
+    case 'ADD':{
+      const newAnecdote = {
+        content: action.data.content,
+        id: action.data.id,
+        votes: 0
+      }
+      return [...state, newAnecdote]
     }
     default: return state
   }
