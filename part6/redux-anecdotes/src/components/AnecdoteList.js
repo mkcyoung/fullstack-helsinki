@@ -7,12 +7,19 @@ const AnecdoteList = (props) => {
     const anecdotes = useSelector(({ filter, anecdotes }) => {
        return anecdotes.filter(anecdote => anecdote.content.toLowerCase().includes(filter))
     })
+    const message = useSelector( state => state.notification.message )
+    const timeoutID = useSelector( state => state.notification.timeoutID )
+
     const dispatch = useDispatch()
   
     const vote = (anecdote) => {
-      dispatch(upVote(anecdote))
-
-      dispatch(setNotification(`voted for "${anecdote.content}"`, 5))
+        dispatch(upVote(anecdote))
+        if (message) {
+            clearTimeout(timeoutID)
+            dispatch(setNotification(`voted for "${anecdote.content}"`, 5))
+        } else {
+            dispatch(setNotification(`voted for "${anecdote.content}"`, 5))
+        }
     }
 
     return (

@@ -13,7 +13,7 @@ const AnecdoteForm = (props) => {
     event.target.anecdote.value = ''
     props.createAnecdote(content)
 
-   props.setNotification('successfully created anecdote',5)
+    props.setNotification('successfully created anecdote',5)
   }
 
   return (
@@ -27,13 +27,19 @@ const AnecdoteForm = (props) => {
   )
 }
 
+const mapStateToProps = (state) => {
+  return {
+    message: state.notification.message
+  }
+}
+
 const mapDispatchToProps = {
   createAnecdote,
   setNotification
 }
 
 const ConnectedAnecdoteForm = connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(AnecdoteForm)
 
