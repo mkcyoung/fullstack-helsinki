@@ -31,7 +31,7 @@ const App = () => {
             <button onClick={() => vote(anecdote.id)}>vote</button>
           </div>
         </div>
-      )}
+      ).sort((a,b) => b.props.children[1].props.children[1] - a.props.children[1].props.children[1]  )}
       <h2>create new</h2>
       <form onSubmit={addAnecdote}>
         <div><input name='anecdote'/></div>
