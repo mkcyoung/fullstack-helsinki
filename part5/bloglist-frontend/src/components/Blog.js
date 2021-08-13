@@ -51,15 +51,15 @@ const Blog = ({ blog, user, deleteBlog, updateBlogs }) => {
           </div>
           <div className='moreInfo'>
             {blog.url} <br />
-            likes: {likes} <button onClick={ likeBlog }>like</button> <br />
+            likes: <span id='likes'>{likes}</span> <button onClick={ likeBlog } id='like-button'>like</button> <br />
             {blog.user ? blog.user.name : 'No user'} <br />
-            { blog.user && user.name === blog.user.name ? <button onClick={ removeBlog }>remove</button> : 'butt' }
+            { blog.user && user.name === blog.user.name ? <button onClick={ removeBlog } id='remove-button'>remove</button> : null }
           </div>
         </div> :
         <div style={blogStyle} className='blog'>
           <div className='defaultInfo'>
             {blog.title} {blog.author}
-            <button onClick={ toggleBlog }>view</button>
+            <button onClick={ toggleBlog } id='view-button'>view</button>
           </div>
         </div>
       }

@@ -148,7 +148,7 @@ const App = () => {
           <h2>blogs</h2>
           <Notification message={notification[0]} notificationType={notification[1]}/>
           <p>{user.name} logged-in
-            <button onClick={() => handleLogout()}>logout</button>
+            <button onClick={() => handleLogout()} id='logout-button'>logout</button>
           </p>
           <Togglable buttonLabel="create new blog" ref={blogFormRef} >
             <BlogForm createBlog={addBlog} />
