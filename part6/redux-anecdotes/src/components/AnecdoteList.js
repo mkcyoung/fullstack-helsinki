@@ -22,6 +22,9 @@ const AnecdoteList = (props) => {
         }
     }
 
+    // Sorted handled clumsily here, in model solution they handled sorting in the reducer,
+    // so that the anecdoates recieved here were already sorted
+
     return (
         <div>
             {anecdotes.map(anecdote =>
