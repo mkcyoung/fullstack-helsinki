@@ -19,7 +19,6 @@ const BlogForm = ({ createBlog }) => {
     setUrl(event.target.value)
   }
 
-  // need to figure out how to properly implement this guy
   const addBlog = async (event) => {
     event.preventDefault()
     const blogObject = {

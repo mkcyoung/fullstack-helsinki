@@ -26,15 +26,13 @@ const App = () => {
   const [user, setUser] = useState(null)
   const blogFormRef = useRef()
 
-  // Notification state
-  // const [notification, setNotification] = useState([null,'error'])
-  const notification = useSelector(state => [state.notification.message, state.notification.type])
-
   useEffect(() => {
     blogService.getAll().then(blogs =>
       setBlogs( blogs )
     )
   }, [])
+
+  // init blogs and get their states using dispatch and selector .. .. .. 
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedBlogappUser')
@@ -65,10 +63,7 @@ const App = () => {
       dispatch(setNotification(`A new blog "${newBlog.title}" by "${newBlog.author}" was added.`,'success',5))
     }
     catch (exception) {
-      setNotification([exception,'error'])
-      setTimeout(() => {
-        setNotification([null,'error'])
-      }, 2000)
+      dispatch(setNotification(exception,'error',5))
     }
   }
 
@@ -131,7 +126,7 @@ const App = () => {
       {user === null ?
         <div>
           <h2>Log in to application</h2>
-          <Notification message={notification[0]} notificationType={notification[1]}/>
+          <Notification />
           <Login
             username={username}
             password={password}
@@ -143,7 +138,7 @@ const App = () => {
         <div>
           <h2>blogs</h2>
 
-          <Notification message={notification[0]} notificationType={notification[1]}/>
+          <Notification />
 
           <p>{user.name} logged-in
             <button onClick={() => handleLogout()} id='logout-button'>logout</button>

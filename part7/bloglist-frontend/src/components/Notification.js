@@ -5,7 +5,6 @@ import { useSelector } from 'react-redux'
 const Notification = () => {
   const notification = useSelector(state => state.notification.message)
   const category = useSelector(state => state.notification.category)
-  console.log(category)
 
   if (!notification) {
     return null
