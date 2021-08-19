@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import {
   Switch, Route, Link,
+  useHistory,
   useRouteMatch
 } from "react-router-dom"
 
@@ -64,6 +65,8 @@ const CreateNew = (props) => {
   const [author, setAuthor] = useState('')
   const [info, setInfo] = useState('')
 
+  const history = useHistory()
+
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -73,6 +76,10 @@ const CreateNew = (props) => {
       info,
       votes: 0
     })
+    setContent('')
+    setAuthor('')
+    setInfo('')
+    history.push('/')
   }
 
   return (
@@ -121,6 +128,11 @@ const App = () => {
   const addNew = (anecdote) => {
     anecdote.id = (Math.random() * 10000).toFixed(0)
     setAnecdotes(anecdotes.concat(anecdote))
+    setNotification( `a new anecdote ${anecdote.content} created!`)
+    setTimeout( () => {
+      setNotification('')
+    }, 10000)
+
   }
 
   const anecdoteById = (id) =>
@@ -142,12 +154,11 @@ const App = () => {
     ? anecdoteById(match.params.id)
     : null
 
-  console.log(match,anecdote)
-
   return (
     <div>
       <h1>Software anecdotes</h1>
       <Menu />
+      <div>{notification}</div>
       <Switch>
         <Route path='/create'>
           <CreateNew addNew={addNew} />
