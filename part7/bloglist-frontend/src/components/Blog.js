@@ -1,9 +1,10 @@
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { updateBlogLikes } from '../reducers/blogReducer'
+import { deleteBlog } from '../reducers/blogReducer'
 
 
-const Blog = ({ blog, user, deleteBlog, updateBlogs }) => {
+const Blog = ({ blog, user }) => {
   const dispatch = useDispatch()
 
   const [visible, setVisible] = useState(false)
@@ -41,7 +42,7 @@ const Blog = ({ blog, user, deleteBlog, updateBlogs }) => {
   const removeBlog = async (event) => {
     event.preventDefault()
     if (window.confirm(`Are you sure you want to remove ${blog.title}?`)){
-      deleteBlog(blog)
+      dispatch(deleteBlog(blog.id))
     }
   }
 

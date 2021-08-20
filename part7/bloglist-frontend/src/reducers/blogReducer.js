@@ -23,6 +23,17 @@ export const createBlog = data => {
     }
   }
 
+  // action creator for deleting new blog
+    export const deleteBlog = id => {
+        return async dispatch => {
+        const newBlog = await blogService.remove(id)
+        dispatch({
+            type: 'REMOVE',
+            id: id
+            })
+        }
+    }
+
   export const initializeBlogs = () => {
     return async dispatch => {
       const blogs = await blogService.getAll()
@@ -48,6 +59,9 @@ const blogReducer = (state = [], action) => {
                 likes: blogToChange.likes + 1
             }
             return state.map(a => a.id === action.id ? changedBlog : a)
+        }
+        case 'REMOVE':{
+            return state.filter( a => a.id !== action.id )
         }
         default:
             return state
