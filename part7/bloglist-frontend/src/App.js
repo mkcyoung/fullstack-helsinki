@@ -5,11 +5,19 @@ import LoginForm from './components/LoginForm'
 import Notification from './components/Notification'
 import TogglableBlogForm from './components/TogglableBlogForm'
 import LogoutButton from './components/LogoutButton'
+import UserList from './components/UserList'
 
 import { initializeBlogs } from './reducers/blogReducer'
+import { getUsers } from './reducers/usersReducer'
 import { getCurrentUser } from './reducers/userReducer'
 
 import { useDispatch, useSelector } from 'react-redux'
+
+import {
+  Switch, Route, Link,
+  useHistory,
+  useRouteMatch
+} from 'react-router-dom'
 
 
 const App = () => {
@@ -19,6 +27,11 @@ const App = () => {
   // init blogs
   useEffect(() => {
     dispatch(initializeBlogs())
+  }, [dispatch])
+
+  // init users
+  useEffect(() => {
+    dispatch(getUsers())
   }, [dispatch])
 
   // Retrieve current user if there is one
@@ -36,19 +49,28 @@ const App = () => {
           <Notification />
           <LoginForm />
         </div> :
-        <div>
+        <>
           <h2>blogs</h2>
-
           <Notification />
-
           <p>{user.name} logged-in
-            <LogoutButton />
+          <LogoutButton />
           </p>
 
-          <TogglableBlogForm />
+          <Switch>
+            <Route path='/users'>
+              <h2>users</h2>
+              <UserList />
+            </Route>
+            <Route path='/'>
+              <div>
+                <TogglableBlogForm />
+                <BlogList />
+              </div>
+            </Route>
+        </Switch>
 
-          <BlogList />
-        </div>
+      </>
+        
       }
     </>
 
