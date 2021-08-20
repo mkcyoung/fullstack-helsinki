@@ -6,11 +6,12 @@ import BlogForm from './components/BlogForm'
 import Togglable from './components/Togglable'
 import Notification from './components/Notification'
 
-import blogService from './services/blogs'
-import loginService from './services/login'
+// import blogService from './services/blogs'
+// import loginService from './services/login'
 
-import { setNotification } from './reducers/notificationReducer'
+// import { setNotification } from './reducers/notificationReducer'
 import { initializeBlogs } from './reducers/blogReducer'
+import { getCurrentUser, logoutUser, setUser } from './reducers/userReducer'
 
 import { useDispatch, useSelector } from 'react-redux'
 
@@ -21,7 +22,7 @@ const App = () => {
 
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
-  const [user, setUser] = useState(null)
+  // const [user, setUser] = useState(null)
   const blogFormRef = useRef()
 
 
@@ -33,13 +34,10 @@ const App = () => {
 
 
   useEffect(() => {
-    const loggedUserJSON = window.localStorage.getItem('loggedBlogappUser')
-    if (loggedUserJSON) {
-      const user = JSON.parse(loggedUserJSON)
-      setUser(user)
-      blogService.setToken(user.token)
-    }
-  }, [])
+    dispatch(getCurrentUser())
+  }, [dispatch])
+  // set current user by retrieving from store
+  const user = useSelector(state => state.user )
 
   // This feels stupid, examine model solution to see how they did it --> this is the way to do it
   const handleUsername = (event) => {
@@ -50,58 +48,28 @@ const App = () => {
     setPassword(event.target.value)
   }
 
-  // This should be handled in the reducer 
-  const removeBlog = async (blog) => {
-    try {
-      await blogService.remove(blog.id)
-      setBlogs(blogs.filter(n => n.id !== blog.id))
-      dispatch(setNotification(`"${blog.title}" successfully deleted.`,'success',5))
-    }
-    catch (exception) {
-      dispatch(setNotification(exception,'error',5))
-    }
-  }
-
   const handleLogin = async (event) => {
     event.preventDefault()
-    try {
-      const user = await loginService.login({
-        username, password,
-      })
-
-      window.localStorage.setItem(
-        'loggedBlogappUser', JSON.stringify(user)
-      )
-
-      blogService.setToken(user.token)
-      setUser(user)
-      dispatch(setNotification(`${user.username} logged in`,'success',5))
-      setUsername('')
-      setPassword('')
-    } catch (exception) {
-      dispatch(setNotification('Wrong credentials','error',5))
-    }
-
-    console.log('logging in with', username)
+    dispatch(setUser(username,password))
+    setUsername('')
+    setPassword('')
   }
 
   const handleLogout = () => {
-    console.log('logging out',user.username)
+    // console.log('logging out',user.username)
     // clear storage
-    window.localStorage.clear()
+    // window.localStorage.clear()
+
+    dispatch(logoutUser())
 
     // set user back to null
     setUser(null)
     setUsername('')
     setPassword('')
 
-    dispatch(setNotification('successfully logged out','success',5))
+    // dispatch(setNotification('successfully logged out','success',5))
   }
 
-  // const updateBlogs = async (id,newBlog) => {
-  //   await blogService.update( id, newBlog )
-  //   setBlogs(await blogService.getAll())
-  // }
 
   const byLikes = (b1, b2) => b2.likes - b1.likes
 
