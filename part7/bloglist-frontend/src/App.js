@@ -1,12 +1,13 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect } from 'react'
+
 import BlogList from './components/BlogList'
 import LoginForm from './components/LoginForm'
-import BlogForm from './components/BlogForm'
-import Togglable from './components/Togglable'
 import Notification from './components/Notification'
+import TogglableBlogForm from './components/TogglableBlogForm'
+import LogoutButton from './components/LogoutButton'
 
 import { initializeBlogs } from './reducers/blogReducer'
-import { getCurrentUser, logoutUser } from './reducers/userReducer'
+import { getCurrentUser } from './reducers/userReducer'
 
 import { useDispatch, useSelector } from 'react-redux'
 
@@ -14,8 +15,6 @@ import { useDispatch, useSelector } from 'react-redux'
 const App = () => {
 
   const dispatch = useDispatch()
-
-  const blogFormRef = useRef()
 
   // init blogs
   useEffect(() => {
@@ -28,10 +27,6 @@ const App = () => {
   }, [dispatch])
   // set current user by retrieving from store
   const user = useSelector(state => state.user )
-
-  const handleLogout = () => {
-    dispatch(logoutUser())
-  }
 
   return (
     <>
@@ -47,12 +42,10 @@ const App = () => {
           <Notification />
 
           <p>{user.name} logged-in
-            <button onClick={() => handleLogout()} id='logout-button'>logout</button>
+            <LogoutButton />
           </p>
 
-          <Togglable buttonLabel="create new blog" ref={blogFormRef} >
-            <BlogForm />
-          </Togglable>
+          <TogglableBlogForm />
 
           <BlogList />
         </div>

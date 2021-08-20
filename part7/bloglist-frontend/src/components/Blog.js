@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch  } from 'react-redux'
 import { updateBlogLikes } from '../reducers/blogReducer'
 import { deleteBlog } from '../reducers/blogReducer'
+import { setNotification } from '../reducers/notificationReducer'
 
 
 const Blog = ({ blog, user }) => {
@@ -43,6 +44,7 @@ const Blog = ({ blog, user }) => {
     event.preventDefault()
     if (window.confirm(`Are you sure you want to remove ${blog.title}?`)){
       dispatch(deleteBlog(blog.id))
+      dispatch(setNotification(`the blog ${blog.title} was successfully deleted`,'success',5))
     }
   }
 

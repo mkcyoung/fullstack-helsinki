@@ -5,7 +5,7 @@ import { useDispatch } from 'react-redux'
 import { createBlog } from '../reducers/blogReducer'
 import { setNotification } from '../reducers/notificationReducer'
 
-const BlogForm = (props) => {
+const BlogForm = ({ blogFormRef }) => {
   const dispatch = useDispatch()
 
   const [title, setTitle] = useState('')
@@ -26,6 +26,7 @@ const BlogForm = (props) => {
 
   const addBlog = async (event) => {
     event.preventDefault()
+    blogFormRef.current.toggleVisibility()
     const blogObject = {
       title: title,
       author: author,
