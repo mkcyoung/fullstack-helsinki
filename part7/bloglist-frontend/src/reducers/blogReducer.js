@@ -2,13 +2,13 @@ import blogService from '../services/blogs'
 
 
 // action creator for liking
-export const like = (blog) => {
+export const updateBlogLikes = (blog) => {
     return async dispatch => {
-      dispatch({
-        type:'LIKE',
-        data: blog
-      })
-      await blogService.update(blog)
+        dispatch({
+            type:'LIKE',
+            id: blog.id
+        })
+        await blogService.update(blog.id,blog)
     }
   }
 
@@ -37,23 +37,17 @@ export const createBlog = data => {
 const blogReducer = (state = [], action) => {
     switch (action.type) {
         case 'ADD':{
-            const newBlog = {
-              title: action.data.title,
-              author: action.data.author,
-              url: action.data.url,
-              likes: action.data.likes
-            }
-            return [...state, newBlog]
+            return [...state, action.data]
           }
         case 'INIT':
             return action.data
         case 'LIKE':{
-            const blogToChange = action.data
+            const blogToChange = state.find( a => a.id === action.id)
             const changedBlog = {
                 ...blogToChange,
                 likes: blogToChange.likes + 1
             }
-            return state.map(a => a.id === blogToChange.id ? changedBlog : a)
+            return state.map(a => a.id === action.id ? changedBlog : a)
         }
         default:
             return state

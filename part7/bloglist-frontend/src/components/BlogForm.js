@@ -1,7 +1,12 @@
 import React, { useState } from 'react'
 import Input from './Input'
 
-const BlogForm = ({ createBlog }) => {
+import { useDispatch } from 'react-redux'
+import { createBlog } from '../reducers/blogReducer'
+import { setNotification } from '../reducers/notificationReducer'
+
+const BlogForm = (props) => {
+  const dispatch = useDispatch()
 
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
@@ -27,7 +32,13 @@ const BlogForm = ({ createBlog }) => {
       url: url,
     }
 
-    createBlog(blogObject)
+    try {
+      dispatch(createBlog(blogObject))
+      dispatch(setNotification(`A new blog "${blogObject.title}" by "${blogObject.author}" was added.`,'success',5))
+    }
+    catch (exception) {
+      dispatch(setNotification(exception,'error',5))
+    }
 
     setTitle('')
     setAuthor('')

@@ -1,7 +1,10 @@
 import React, { useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { updateBlogLikes } from '../reducers/blogReducer'
 
 
 const Blog = ({ blog, user, deleteBlog, updateBlogs }) => {
+  const dispatch = useDispatch()
 
   const [visible, setVisible] = useState(false)
   const [likes, setLikes] = useState(blog.likes)
@@ -24,13 +27,14 @@ const Blog = ({ blog, user, deleteBlog, updateBlogs }) => {
       likes: likes + 1,
       author: blog.author,
       title: blog.title,
-      url: blog.url
+      url: blog.url,
+      id: blog.id
     }
     if (blog.user) {
       newBlog.user = blog.user.id
     }
     setLikes(likes + 1)
-    updateBlogs(blog.id, newBlog)
+    dispatch(updateBlogLikes(newBlog))
 
   }
 
