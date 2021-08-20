@@ -5,7 +5,8 @@ import LoginForm from './components/LoginForm'
 import Notification from './components/Notification'
 import TogglableBlogForm from './components/TogglableBlogForm'
 import LogoutButton from './components/LogoutButton'
-import UserList from './components/UserList'
+import UserTable from './components/UserTable'
+import User from './components/User'
 
 import { initializeBlogs } from './reducers/blogReducer'
 import { getUsers } from './reducers/usersReducer'
@@ -33,6 +34,7 @@ const App = () => {
   useEffect(() => {
     dispatch(getUsers())
   }, [dispatch])
+  const users = useSelector(state => state.users)
 
   // Retrieve current user if there is one
   useEffect(() => {
@@ -40,6 +42,18 @@ const App = () => {
   }, [dispatch])
   // set current user by retrieving from store
   const user = useSelector(state => state.user )
+
+  const usersById = (id) => {
+    users.find(a => a.id === id)
+  }
+
+  const match = useRouteMatch('/:id')
+  const clickedUser = match
+    ? usersById(match.params.id)
+    : null
+  console.log('APP',clickedUser)
+  // Need to figure out route match!!!!
+
 
   return (
     <>
@@ -58,7 +72,10 @@ const App = () => {
 
           <Switch>
             <Route path='/users'>
-              <UserList />
+              <UserTable />
+            </Route>
+            <Route path='/:id'>
+              <User user={clickedUser}/>
             </Route>
             <Route path='/'>
               <div>

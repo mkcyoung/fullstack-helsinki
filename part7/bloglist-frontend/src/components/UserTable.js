@@ -1,10 +1,10 @@
 import React from 'react'
-import User from './User'
+import UserRow from './UserRow'
 import { useSelector } from 'react-redux'
 
 
 
-const UserList = (props) => {
+const UserTable = (props) => {
     const users = useSelector(state => state.users)
 
     const byBlogs = (b1, b2) => b2.blogs.length - b1.blogs.length
@@ -19,7 +19,7 @@ const UserList = (props) => {
             </thead>
             <tbody>
                 {users.sort(byBlogs).map(user =>
-                    <User key={user.id} user={user} />
+                    <UserRow key={user.id} user={user} />
                 )}
             </tbody>
         </table>
@@ -28,4 +28,4 @@ const UserList = (props) => {
 }
 
 
-export default UserList
+export default UserTable
