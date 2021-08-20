@@ -10,11 +10,19 @@ const UserList = (props) => {
     const byBlogs = (b1, b2) => b2.blogs.length - b1.blogs.length
 
     return (
-        <div>
-            {users.sort(byBlogs).map(user =>
-                <User key={user.id} user={user} />
-            )}
-        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th> Users </th>
+                    <th> blogs created </th>
+                </tr>
+            </thead>
+            <tbody>
+                {users.sort(byBlogs).map(user =>
+                    <User key={user.id} user={user} />
+                )}
+            </tbody>
+        </table>
     )
 
 }

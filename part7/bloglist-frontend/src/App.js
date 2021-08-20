@@ -58,7 +58,6 @@ const App = () => {
 
           <Switch>
             <Route path='/users'>
-              <h2>users</h2>
               <UserList />
             </Route>
             <Route path='/'>

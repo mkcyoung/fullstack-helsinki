@@ -5,9 +5,14 @@ import React from 'react'
 const User = ({ user }) => {
 
     return (
-        <div>
-            {user.name} {user.blogs.length}
-        </div>
+        <tr>
+            <td>
+                {user.name}
+            </td>
+            <td>
+                {user.blogs.length}
+            </td> 
+        </tr>
     )
 
 }
