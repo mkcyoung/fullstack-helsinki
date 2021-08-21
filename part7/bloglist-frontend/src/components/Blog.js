@@ -1,27 +1,24 @@
 import React, { useState } from 'react'
-import { useDispatch  } from 'react-redux'
+import { useDispatch, useSelector  } from 'react-redux'
 import { updateBlogLikes } from '../reducers/blogReducer'
 import { deleteBlog } from '../reducers/blogReducer'
 import { setNotification } from '../reducers/notificationReducer'
 
+import { useHistory } from 'react-router-dom'
 
-const Blog = ({ blog, user }) => {
+
+const Blog = ({ blog }) => {
+
+  if (!blog){
+    return null
+  }
+
   const dispatch = useDispatch()
+  const user = useSelector(state => state.user )
 
-  const [visible, setVisible] = useState(false)
+  const history = useHistory()
+
   const [likes, setLikes] = useState(blog.likes)
-
-  const blogStyle = {
-    paddingTop: 10,
-    paddingLeft: 2,
-    border: 'solid',
-    borderWidth: 1,
-    marginBottom: 5
-  }
-
-  const toggleBlog = () => {
-    setVisible(!visible)
-  }
 
   const likeBlog = async () => {
 
@@ -45,31 +42,25 @@ const Blog = ({ blog, user }) => {
     if (window.confirm(`Are you sure you want to remove ${blog.title}?`)){
       dispatch(deleteBlog(blog.id))
       dispatch(setNotification(`the blog ${blog.title} was successfully deleted`,'success',5))
+      history.push('/')
     }
+  }
+
+  const validateText = (str) =>  {
+      var tarea = str
+      if (tarea.indexOf('http://') !== 0 || tarea.indexOf('https://') !== 0) {
+          return `https://${blog.url}`
+      }
   }
 
   return (
     <>
-      {visible ?
-        <div style={blogStyle} className='blog'>
-          <div className='defaultInfo'>
-            {blog.title} {blog.author}
-            <button onClick={ toggleBlog }>hide</button>
-          </div>
-          <div className='moreInfo'>
-            {blog.url} <br />
-            likes: <span id='likes'>{likes}</span> <button onClick={ likeBlog } id='like-button'>like</button> <br />
-            {blog.user ? blog.user.name : 'No user'} <br />
-            { blog.user && user.name === blog.user.name ? <button onClick={ removeBlog } id='remove-button'>remove</button> : null }
-          </div>
-        </div> :
-        <div style={blogStyle} className='blog'>
-          <div className='defaultInfo'>
-            {blog.title} {blog.author}
-            <button onClick={ toggleBlog } id='view-button'>view</button>
-          </div>
-        </div>
-      }
+      <h2>{blog.title} by {blog.author}</h2>
+      <a href={`${validateText(blog.url)}`}> {blog.url} </a> <br />
+      likes: <span id='likes'>{likes}</span> <button onClick={ likeBlog } id='like-button'>like</button> <br />
+      {blog.user ? `added by ${blog.user.name}` : 'No user'} <br />
+      { blog.user && user.name === blog.user.name ? <button onClick={ removeBlog } id='remove-button'>remove</button> : null }
+
     </>
 
   )

@@ -7,6 +7,7 @@ import TogglableBlogForm from './components/TogglableBlogForm'
 import LogoutButton from './components/LogoutButton'
 import UserTable from './components/UserTable'
 import User from './components/User'
+import Blog from './components/Blog'
 
 import { initializeBlogs } from './reducers/blogReducer'
 import { getUsers } from './reducers/usersReducer'
@@ -29,6 +30,7 @@ const App = () => {
   useEffect(() => {
     dispatch(initializeBlogs())
   }, [dispatch])
+  const blogs = useSelector(state => state.blogs)
 
   // init users
   useEffect(() => {
@@ -43,14 +45,20 @@ const App = () => {
   // set current user by retrieving from store
   const user = useSelector(state => state.user )
 
-  const usersById = (id) => {
-    return users.find(a => a.id === id)
+  const findById = (arr,id) => {
+    return arr.find(a => a.id === id)
   }
 
   // finds user with id that matches the route url 
-  const match = useRouteMatch('/users/:id')
-  const clickedUser = match
-    ? usersById(match.params.id)
+  const matchUser = useRouteMatch('/users/:id')
+  const clickedUser = matchUser
+    ? findById(users,matchUser.params.id)
+    : null
+
+  // finds blog with id that matches the route url 
+  const matchBlog = useRouteMatch('/blogs/:id')
+  const clickedBlog = matchBlog
+    ? findById(blogs,matchBlog.params.id)
     : null
 
 
@@ -70,6 +78,9 @@ const App = () => {
           </p>
 
           <Switch>
+            <Route path='/blogs/:id'>
+              <Blog blog={clickedBlog}/>
+            </Route>
             <Route path='/users/:id'>
               <User user={clickedUser}/>
             </Route>
