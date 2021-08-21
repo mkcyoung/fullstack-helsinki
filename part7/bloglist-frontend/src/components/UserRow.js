@@ -9,7 +9,7 @@ const UserRow = ({ user }) => {
     return (
         <tr>
             <td>
-                <Link to={`users/${user.id}`}> {user.name} </Link>
+                <Link to={`/users/${user.id}`}> {user.name} </Link>
             </td>
             <td>
                 {user.blogs.length}

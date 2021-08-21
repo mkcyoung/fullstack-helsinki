@@ -44,15 +44,14 @@ const App = () => {
   const user = useSelector(state => state.user )
 
   const usersById = (id) => {
-    users.find(a => a.id === id)
+    return users.find(a => a.id === id)
   }
 
-  const match = useRouteMatch('/:id')
+  // finds user with id that matches the route url 
+  const match = useRouteMatch('/users/:id')
   const clickedUser = match
     ? usersById(match.params.id)
     : null
-  console.log('APP',clickedUser)
-  // Need to figure out route match!!!!
 
 
   return (
@@ -71,11 +70,11 @@ const App = () => {
           </p>
 
           <Switch>
+            <Route path='/users/:id'>
+              <User user={clickedUser}/>
+            </Route>
             <Route path='/users'>
               <UserTable />
-            </Route>
-            <Route path='/:id'>
-              <User user={clickedUser}/>
             </Route>
             <Route path='/'>
               <div>
