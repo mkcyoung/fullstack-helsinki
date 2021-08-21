@@ -64,12 +64,17 @@ Content-Type: application/json
 
 {
     "blog": {
-        "title": "",
-        "url": "",
-        "likes": "",
-        "author": "",
-        "user": "",
+        "title": "apples are good",
+        "url": "www.apple.com",
+        "likes": "46",
+        "author": "Steve Jobs 2",
+        "user": {
+            "username": "myoung",
+            "name": "Michael Young",
+            "id": "6115b9ef3f9cc1d679ce4ef1"
+        },
+        "id": "6115b9f03f9cc1d679ce4f04",
         "comments": []
     },
-    "comment": "this is great"
+    "comment": "hi mom"
 }
