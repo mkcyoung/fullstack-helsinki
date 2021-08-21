@@ -10,7 +10,7 @@ import { useHistory } from 'react-router-dom'
 const Blog = ({ blog }) => {
 
   if (!blog){
-    return null
+    return <div>blog has been deleted</div>
   }
 
   const dispatch = useDispatch()

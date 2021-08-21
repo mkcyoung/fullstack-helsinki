@@ -8,6 +8,7 @@ import LogoutButton from './components/LogoutButton'
 import UserTable from './components/UserTable'
 import User from './components/User'
 import Blog from './components/Blog'
+import Menu from './components/Menu'
 
 import { initializeBlogs } from './reducers/blogReducer'
 import { getUsers } from './reducers/usersReducer'
@@ -71,12 +72,9 @@ const App = () => {
           <LoginForm />
         </div> :
         <>
-          <h2>blogs</h2>
+          <Menu />
           <Notification />
-          <p>{user.name} logged-in
-          <LogoutButton />
-          </p>
-
+          <h2>blogs</h2>
           <Switch>
             <Route path='/blogs/:id'>
               <Blog blog={clickedBlog}/>
