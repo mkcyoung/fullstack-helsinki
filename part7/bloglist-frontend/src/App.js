@@ -4,7 +4,6 @@ import BlogList from './components/BlogList'
 import LoginForm from './components/LoginForm'
 import Notification from './components/Notification'
 import TogglableBlogForm from './components/TogglableBlogForm'
-import LogoutButton from './components/LogoutButton'
 import UserTable from './components/UserTable'
 import User from './components/User'
 import Blog from './components/Blog'
@@ -17,8 +16,7 @@ import { getCurrentUser } from './reducers/userReducer'
 import { useDispatch, useSelector } from 'react-redux'
 
 import {
-  Switch, Route, Link,
-  useHistory,
+  Switch, Route,
   useRouteMatch
 } from 'react-router-dom'
 
