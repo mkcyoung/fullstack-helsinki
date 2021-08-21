@@ -74,11 +74,12 @@ blogsRouter.put('/:id', async (request, response, next) => {
 // adding comment functionality -> maybe a put is more appropriate?
 blogsRouter.post('/:id/comments',  async (request, response, next) => {
     
-    const blog = request.body.blog
+    console.log(request)
+    const blogID = request.body.blogID
     const comment = request.body.comment
 
     const targetBlog = await Blog
-        .findById(blog.id)
+        .findById(blogID)
     
     targetBlog.comments = targetBlog
         .comments

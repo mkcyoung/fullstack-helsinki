@@ -3,6 +3,7 @@ import { useDispatch, useSelector  } from 'react-redux'
 import { updateBlogLikes } from '../reducers/blogReducer'
 import { deleteBlog } from '../reducers/blogReducer'
 import { setNotification } from '../reducers/notificationReducer'
+import CommentForm from './CommentForm'
 
 import { useHistory } from 'react-router-dom'
 
@@ -62,6 +63,7 @@ const Blog = ({ blog }) => {
       {blog.user ? `added by ${blog.user.name}` : 'No user'} <br />
       { blog.user && user.name === blog.user.name ? <button onClick={ removeBlog } id='remove-button'>remove</button> : null }
       <h2>comments</h2>
+      <CommentForm blog={blog} />
       <ul>{comments.map((comment,i) => <li key={i} >{comment}</li>)}</ul>
     </>
 

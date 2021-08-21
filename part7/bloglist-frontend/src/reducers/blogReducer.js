@@ -24,25 +24,36 @@ export const createBlog = data => {
   }
 
   // action creator for deleting new blog
-    export const deleteBlog = id => {
-        return async dispatch => {
-        const newBlog = await blogService.remove(id)
-        dispatch({
-            type: 'REMOVE',
-            id: id
-            })
-        }
-    }
-
-  export const initializeBlogs = () => {
-    return async dispatch => {
-      const blogs = await blogService.getAll()
+  export const deleteBlog = id => {
+      return async dispatch => {
+      const newBlog = await blogService.remove(id)
       dispatch({
-        type: 'INIT',
-        data: blogs
-      })
-    }
+          type: 'REMOVE',
+          id: id
+          })
+      }
   }
+
+export const initializeBlogs = () => {
+  return async dispatch => {
+    const blogs = await blogService.getAll()
+    dispatch({
+      type: 'INIT',
+      data: blogs
+    })
+  }
+}
+
+export const addComment = (id, newBlogComment) => {
+  return async dispatch => {
+    const comments = await blogService.addComment(id, newBlogComment)
+    dispatch({
+      type: 'ADD_COMMENT',
+      id: id,
+      comments: comments
+    })
+  }
+}
 
 
 const blogReducer = (state = [], action) => {
@@ -50,6 +61,15 @@ const blogReducer = (state = [], action) => {
         case 'ADD':{
             return [...state, action.data]
           }
+        case 'ADD_COMMENT':{
+          const comments = action.comments
+          const blogToChange = state.find( a => a.id === action.id)
+          const changedBlog = {
+            ...blogToChange,
+            comments: comments
+          }
+          return state.map(a => a.id === action.id ? changedBlog : a)
+        }
         case 'INIT':
             return action.data
         case 'LIKE':{
