@@ -1,4 +1,5 @@
 import blogService from '../services/blogs'
+import { getUsers } from './usersReducer'
 
 
 // action creator for liking
@@ -16,6 +17,7 @@ export const updateBlogLikes = (blog) => {
 export const createBlog = data => {
     return async dispatch => {
     const newBlog = await blogService.create(data)
+    dispatch(getUsers())
     dispatch({
         type: 'ADD',
         data: newBlog,

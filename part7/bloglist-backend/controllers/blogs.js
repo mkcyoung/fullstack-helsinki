@@ -41,6 +41,7 @@ blogsRouter.post('/', middleware.userExtractor, async (request, response, next) 
     const updatedBlog = await Blog
         .findById(savedBlog._id).populate('user', {username: 1, name: 1})
     user.blogs = user.blogs.concat(savedBlog._id)
+    // user.populate('blogs', {title: 1, author: 1, url: 1, likes: 1})
     await user.save()
 
     response.status(201).json(updatedBlog)
@@ -57,8 +58,11 @@ blogsRouter.delete('/:id', middleware.userExtractor, async (request,response,nex
     const blog = await Blog.findById(request.params.id)
     if ( blog.user.toString() === user._id.toString() ){
         blog.remove()
+        user.blogs = user.blogs.filter( (id) => id.toString() !== request.params.id.toString()) //removes blog from user list
+        await user.save()
         response.status(204).end()
     }
+    
 
     // await Blog.findByIdAndRemove(request.params.id)
     // response.status(204).end()
@@ -74,7 +78,6 @@ blogsRouter.put('/:id', async (request, response, next) => {
 // adding comment functionality -> maybe a put is more appropriate?
 blogsRouter.post('/:id/comments',  async (request, response, next) => {
     
-    console.log(request)
     const blogID = request.body.blogID
     const comment = request.body.comment
 
