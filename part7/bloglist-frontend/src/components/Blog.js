@@ -15,6 +15,7 @@ const Blog = ({ blog }) => {
 
   const dispatch = useDispatch()
   const user = useSelector(state => state.user )
+  const comments = blog.comments
 
   const history = useHistory()
 
@@ -60,7 +61,8 @@ const Blog = ({ blog }) => {
       likes: <span id='likes'>{likes}</span> <button onClick={ likeBlog } id='like-button'>like</button> <br />
       {blog.user ? `added by ${blog.user.name}` : 'No user'} <br />
       { blog.user && user.name === blog.user.name ? <button onClick={ removeBlog } id='remove-button'>remove</button> : null }
-
+      <h2>comments</h2>
+      <ul>{comments.map((comment,i) => <li key={i} >{comment}</li>)}</ul>
     </>
 
   )
