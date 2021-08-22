@@ -65,7 +65,7 @@ const App = () => {
     <>
       {user === null ?
         <div>
-          <h2>Log in to application</h2>
+          <h1 align='center'>Log in to application</h1>
           <Notification />
           <LoginForm />
         </div> :

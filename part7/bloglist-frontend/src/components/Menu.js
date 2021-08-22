@@ -1,29 +1,67 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { useSelector  } from 'react-redux'
-import LogoutButton from './LogoutButton'
+import { useSelector, useDispatch  } from 'react-redux'
+// import LogoutButton from './LogoutButton'
+import { Menu } from 'antd'
+import { useRouteMatch } from 'react-router-dom'
 
-const Menu = () => {
+import { UserOutlined, PoweroffOutlined, TeamOutlined, CopyOutlined } from '@ant-design/icons'
 
-    const user = useSelector(state => state.user)
+import { logoutUser } from '../reducers/userReducer'
 
-    const padding = {
-      paddingRight: 5
+const { SubMenu } = Menu
+
+
+const navMenu = () => {
+
+  const dispatch = useDispatch()
+    
+  const handleLogout = () => {
+      dispatch(logoutUser())
     }
 
-    const navStyle = {
-        padding: 5,
-        backgroundColor: '#dbdbdb'
-    }
 
-    return (
-      <div style={navStyle}>
-        <Link to='/' style={padding}>blogs</Link>
-        <Link to='/users' style={padding}>users</Link>
-        {user.name} logged-in { }
-        <LogoutButton />
-      </div>
-    )
+  // checks out route match to render correct active key
+  const matchUser = useRouteMatch('/users')
+  const clicked = matchUser
+    ? 'users'
+    : 'blogs'
+
+  const user = useSelector(state => state.user)
+
+  const padding = {
+    paddingRight: 5
   }
 
-  export default Menu
+  const navStyle = {
+      padding: 5,
+      backgroundColor: '#dbdbdb'
+  }
+
+
+  return (
+
+    <Menu defaultSelectedKeys={clicked} mode='horizontal'>
+      <Menu.Item key='blogs' icon={<CopyOutlined />}>
+        <Link to='/' style={padding}>blogs</Link>
+      </Menu.Item>
+      <Menu.Item key='users' icon={<TeamOutlined />}>
+        <Link to='/users' style={padding}>users</Link>
+      </Menu.Item>
+      <SubMenu style={{ float: 'right' }} key='user' title={user.name} icon={<UserOutlined />}>
+        <Menu.Item onClick={() => handleLogout()} key='logout' icon={<PoweroffOutlined />}>
+          logout
+        </Menu.Item>
+      </SubMenu>
+    </Menu>
+    
+    // <div style={navStyle}>
+    //   <Link to='/' style={padding}>blogs</Link>
+    //   <Link to='/users' style={padding}>users</Link>
+    //   {user.name} logged-in { }
+    //   <LogoutButton />
+    // </div>
+  )
+}
+
+export default navMenu
