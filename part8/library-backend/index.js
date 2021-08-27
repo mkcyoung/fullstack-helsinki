@@ -55,12 +55,13 @@ const resolvers = {
   Query: {
       bookCount: () => Book.collection.countDocuments(),
       authorCount: () => Author.collection.countDocuments(),
-      allBooks: (root, args) => {
-        return Book.find({})
-        // const { author, genre } = args
-        // return books
-        //     .filter( (book) => author ? book.author === author : true )
-        //     .filter( (book) => genre ? book.genres.includes(genre) : true)
+      allBooks: async (root, args) => {
+        
+        const author = await Author.findOne({ name: { $eq: args.author }}) 
+
+        return  Book 
+                  .find({ author: author ? {$eq: author._id} : {$exists: true} }) 
+                  .find({ genres: args.genre ? {$in: args.genre} : {$exists: true} })
       },
       allAuthors: () => Author.find({}),
   },
