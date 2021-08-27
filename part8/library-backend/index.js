@@ -120,11 +120,11 @@ const resolvers = {
         let author = await Author.findOne({ name: args.author })
         if (!author){
           author = new Author({ "name": args.author })
-          await author.save()
         }
         const book = new Book({ ...args, author: author._id })
         try{
           await book.save()
+          await author.save()
         } catch (error) {
           throw new UserInputError(error.message, {
             invalidArgs: args,
