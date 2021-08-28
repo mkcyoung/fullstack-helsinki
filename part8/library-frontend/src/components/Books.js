@@ -1,22 +1,26 @@
 import React, { useState, useEffect } from 'react'
-import { useLazyQuery, useQuery } from '@apollo/client';  
-import { ALL_BOOKS, GET_BOOKS_BY_GENRE } from '../queries'
+import { useLazyQuery, useQuery, useSubscription } from '@apollo/client';  
+import { ALL_BOOKS, GET_BOOKS_BY_GENRE, BOOK_ADDED} from '../queries'
 
 const Books = ( {show} ) => {
   
   const allBooks = useQuery(ALL_BOOKS)
   const [getBooksByGenre, result] = useLazyQuery(GET_BOOKS_BY_GENRE, {
-    fetchPolicy: "no-cache"
+    fetchPolicy: "no-cache" //Lazy, but I'm tired, alternatively could manually update the cache using client, etc.
   })
-  const [books,setBooks] = useState(null)
-  const [genre,setGenre] = useState('all')
+  const [books, setBooks] = useState(null)
+  const [genre, setGenre] = useState('all')
+
+  // useSubscription(BOOK_ADDED, {
+  //   onSubscriptionData: 
+  // })
 
   useEffect(() => {
-    if(!allBooks.loading){
+    if(allBooks.data){
       setBooks(allBooks.data.allBooks)
     }
     
-  }, [allBooks.data])
+  }, [allBooks])
 
   useEffect(() => {
     if (result.data){
