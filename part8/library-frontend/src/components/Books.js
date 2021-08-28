@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
-import { useLazyQuery, useQuery, useSubscription } from '@apollo/client';  
-import { ALL_BOOKS, GET_BOOKS_BY_GENRE, BOOK_ADDED} from '../queries'
+import { useLazyQuery, useQuery } from '@apollo/client';  
+import { ALL_BOOKS, GET_BOOKS_BY_GENRE } from '../queries'
 
 const Books = ( {show} ) => {
   

@@ -6,15 +6,13 @@ import NewBook from './components/NewBook'
 import Notification from './components/Notification'
 import LoginForm from './components/LoginForm'
 import Recommended from './components/Recommended'
-import { GET_USER, BOOK_ADDED, ALL_BOOKS } from './queries'
+import { BOOK_ADDED, ALL_BOOKS } from './queries'
 
 const App = () => {
   const [page, setPage] = useState('authors')
   const [errorMessage, setErrorMessage] = useState(null)
   const [token, setToken] = useState(null)
   const client = useApolloClient()
-  
-  const user = useQuery(GET_USER)
 
   useEffect(() => {
     const loggedIn = localStorage.getItem('library-user-token')
@@ -64,10 +62,6 @@ const App = () => {
     localStorage.clear()
     client.resetStore()
     setPage('authors')
-  }
-
-  if(user.loading){
-    return <div>loading...</div>
   }
 
   if (!token) {
@@ -122,7 +116,6 @@ const App = () => {
 
       <Recommended
         show={page ==='recommend'}
-        userGenre={user.data.me.favoriteGenre}
       />
 
       <NewBook
