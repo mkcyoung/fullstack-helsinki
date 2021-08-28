@@ -11,7 +11,7 @@ const Recommended = (props) => {
 
     useEffect(() => {
         console.log("In use effect")
-        if (user.data){
+        if (user.data && user.data.me){
           const genre = user.data.me.favoriteGenre
           setGenre(genre)
           getBooksByGenre({ variables: { genre }})
