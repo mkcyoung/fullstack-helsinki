@@ -15,7 +15,7 @@ const BOOK_DETAILS = gql`
 
 
 export const ALL_AUTHORS = gql`
-    query {
+    query ALL_AUTHORS {
         allAuthors {
             name
             born
@@ -25,7 +25,7 @@ export const ALL_AUTHORS = gql`
 `
 
 export const GET_USER = gql`
-    query {
+    query ME {
         me {
             username
             favoriteGenre
@@ -34,7 +34,7 @@ export const GET_USER = gql`
 `
 
 export const ALL_BOOKS = gql`
-    query {
+    query ALL_BOOKS {
         allBooks {
             ...BookDetails
         }

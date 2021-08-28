@@ -1,15 +1,23 @@
 import React, { useState } from 'react'
-import { useMutation } from '@apollo/client';  
-import { CREATE_BOOK, ALL_BOOKS, ALL_AUTHORS } from '../queries'
+import { useMutation, useQuery } from '@apollo/client';  
+import { CREATE_BOOK, ALL_BOOKS, ALL_AUTHORS, GET_BOOKS_BY_GENRE } from '../queries'
 
 const NewBook = (props) => {
+  // const allBooks = useQuery(ALL_BOOKS)
   const [title, setTitle] = useState('')
   const [author, setAuhtor] = useState('')
   const [published, setPublished] = useState('')
   const [genre, setGenre] = useState('')
   const [genres, setGenres] = useState([])
+  // const [allGenres, setAllGenres] = useState([])
 
   const [ createBook ] = useMutation(CREATE_BOOK)
+
+  // useEffect( () => {
+  //   if (allBooks.data){
+
+  //   }
+  // }, [allBooks.data])
 
   if (!props.show) {
     return null
@@ -26,14 +34,16 @@ const NewBook = (props) => {
         { query: ALL_AUTHORS },
       ],
       update: (store, response) => { // I'm confused why this is neccessary, shouldn't subscription/update cache take care of this?
+        // I think key might be in here, need to update all of the genre queries, so this genre object should be everything, not just a few of them
+        // Oh, but I think I only need to update the genre's I just created
         genres.forEach((genre) => {
           try {
             const dataInStore = store.readQuery({
-              query: ALL_BOOKS,
+              query: GET_BOOKS_BY_GENRE,
               variables: { genre }
             })
             store.writeQuery({
-              query: ALL_BOOKS, 
+              query: GET_BOOKS_BY_GENRE, 
               variables: { genre },
               data: {
                 allBooks: [...dataInStore.allBooks].concat(response.data.addBook)
