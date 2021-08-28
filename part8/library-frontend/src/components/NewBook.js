@@ -9,31 +9,7 @@ const NewBook = (props) => {
   const [genre, setGenre] = useState('')
   const [genres, setGenres] = useState([])
 
-  const [ createBook ] = useMutation(CREATE_BOOK, {
-    onError: (error) => {
-      props.setError(error.graphQLErrors[0].message)
-    },
-    // update: (store, response) => {
-      // const bookDataInStore = store.readQuery( {query: ALL_BOOKS} )
-      // const authorDataInStore = store.readQuery( {query: ALL_AUTHORS} )
-      // store.writeQuery({
-      //   query: ALL_BOOKS,
-      //   data: {
-      //     ...bookDataInStore,
-      //     allBooks: [...bookDataInStore.allBooks, response.data.addBook]
-      //   }
-      // })
-      // store.writeQuery({
-      //   query: ALL_AUTHORS,
-      //   data: {
-      //     ...authorDataInStore,
-      //     allAuthors: [...authorDataInStore.allAuthors, response.data.addBook.author]
-      //   }
-      // })
-    // },
-    refetchQueries: [ { query: ALL_AUTHORS } ]
-  })
-
+  const [ createBook ] = useMutation(CREATE_BOOK)
 
   if (!props.show) {
     return null
@@ -44,7 +20,32 @@ const NewBook = (props) => {
     
     console.log('add book...')
 
-    createBook({  variables: { title, author, published, genres } })
+    createBook({  variables: { title, author, published, genres },
+      refetchQueries: [
+        { query: ALL_BOOKS }, 
+        { query: ALL_AUTHORS },
+      ],
+      update: (store, response) => { // I'm confused why this is neccessary, shouldn't subscription/update cache take care of this?
+        genres.forEach((genre) => {
+          try {
+            const dataInStore = store.readQuery({
+              query: ALL_BOOKS,
+              variables: { genre }
+            })
+            store.writeQuery({
+              query: ALL_BOOKS, 
+              variables: { genre },
+              data: {
+                allBooks: [...dataInStore.allBooks].concat(response.data.addBook)
+              }
+            })
+
+          } catch(e) {
+            console.log('not queried', genre)
+          }
+        })
+      }
+    })
 
     setTitle('')
     setPublished('')

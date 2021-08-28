@@ -13,7 +13,6 @@ const Books = ( {show} ) => {
 
   //Any time there's data and no genre, this will render
   useEffect(() => {
-    console.log("In use effect")
     if (allBooks.data && !genre){
       const books = allBooks.data.allBooks
       setBooks(books)

@@ -10,7 +10,7 @@ const Recommended = (props) => {
     const [books, setBooks] = useState(null)
 
     useEffect(() => {
-        console.log("In use effect")
+        // console.log("In use effect - recommended",user)
         if (user.data && user.data.me){
           const genre = user.data.me.favoriteGenre
           setGenre(genre)
