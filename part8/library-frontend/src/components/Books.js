@@ -5,52 +5,46 @@ import { ALL_BOOKS, GET_BOOKS_BY_GENRE, BOOK_ADDED} from '../queries'
 const Books = ( {show} ) => {
   
   const allBooks = useQuery(ALL_BOOKS)
-  const [getBooksByGenre, result] = useLazyQuery(GET_BOOKS_BY_GENRE, {
-    fetchPolicy: "no-cache" //Lazy, but I'm tired, alternatively could manually update the cache using client, etc.
-  })
+  const [getBooksByGenre, getBooksByGenreResult] = useLazyQuery(GET_BOOKS_BY_GENRE)
+
   const [books, setBooks] = useState(null)
-  const [genre, setGenre] = useState('all')
+  const [genre, setGenre] = useState(null)
+  const [genres, setGenres] = useState([])
 
-  // useSubscription(BOOK_ADDED, {
-  //   onSubscriptionData: 
-  // })
-
+  //Any time there's data and no genre, this will render
   useEffect(() => {
-    if(allBooks.data){
-      setBooks(allBooks.data.allBooks)
+    console.log("In use effect")
+    if (allBooks.data && !genre){
+      const books = allBooks.data.allBooks
+      setBooks(books)
+      const genres = allBooks.data.allBooks.reduce( (previousValue, currentValue) => {
+        currentValue = currentValue.genres.filter( genre => previousValue.indexOf(genre) === -1 )
+        return [...previousValue, ...currentValue]
+      },[])
+      setGenres(genres)
     }
-    
-  }, [allBooks])
+  }, [allBooks.data, genre])
 
+  // this run when there is a query for genre books
   useEffect(() => {
-    if (result.data){
-      setBooks(result.data.allBooks)
+    if (getBooksByGenreResult.data){
+      setBooks(getBooksByGenreResult.data.allBooks)
     }
-  }, [result])
+  }, [getBooksByGenreResult])
 
   if (!show) {
     return null
   }
-
-  if (result.loading || allBooks.loading)  {
-    return <div>loading...</div>
-  }
   
-  const genres = allBooks.data.allBooks.reduce( (previousValue, currentValue) => {
-    currentValue = currentValue.genres.filter( genre => previousValue.indexOf(genre) === -1 )
-    return [...previousValue, ...currentValue]
-  },[])
-
   const filterBooks = (genre) => {
-
     setGenre(genre)
-    genre === 'all' ? setBooks(allBooks.data.allBooks) : getBooksByGenre({ variables: { genre }})
+    genre && getBooksByGenre({ variables: { genre }})
   }
 
   return (
     <div>
       <h2>books</h2>
-      {genre !== 'all' ? <div>in genre <em>{genre}</em></div> : null}
+      {genre !== null ? <div>in genre <em>{genre}</em></div> : null}
       <table>
         <tbody>
           <tr>
@@ -72,7 +66,7 @@ const Books = ( {show} ) => {
         </tbody>
       </table>
       <h2>filter by genre</h2>
-      <button onClick={() => filterBooks('all')}>all genres</button>
+      <button onClick={() => filterBooks(null)}>all genres</button>
       {genres.map(a => 
           <button key={a} onClick={() => filterBooks(a)}>{a}</button>)}
     </div>
