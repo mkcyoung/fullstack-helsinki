@@ -1,5 +1,24 @@
+interface BmiValues {
+    height: number;
+    weight: number;
+  }
+
+const parseArguments = (args: Array<string>): BmiValues => {
+    if (args.length < 4) throw new Error('Not enough arguments');
+    if (args.length > 4) throw new Error('Too many arguments');
+  
+    if (!isNaN(Number(args[2])) && !isNaN(Number(args[3]))) {
+        if (Number(args[2]) === 0) throw new Error ('Can\'t divide by 0!')
+        return {
+            height: Number(args[2]),
+            weight: Number(args[3])
+        }
+    } else {
+      throw new Error('Provided values were not numbers!');
+    }
+}
+
 const calculateBmi = (height: number, weight: number) : string => {
-    if (height === 0) throw new Error ('Can\'t divide by 0!')
 
     const bmi = weight / ((height / 100) ** 2)
 
@@ -15,7 +34,8 @@ const calculateBmi = (height: number, weight: number) : string => {
 }
 
 try {
-    console.log(calculateBmi(180,74))
+    const { height, weight } = parseArguments(process.argv);
+    console.log(calculateBmi(height, weight))
 } catch (e) {
-    console.log(e.message)
+    console.log("Error: ", e.message)
 }

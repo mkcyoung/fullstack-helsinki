@@ -1,5 +1,32 @@
 import * as _ from "lodash";
 
+interface ExerciseValues {
+    exercises: Array<number>;
+    target: number;
+  }
+
+const parseArguments = (args: Array<string>): ExerciseValues => {
+    if (args.length < 4) throw new Error('Not enough arguments');
+
+    const numArr = args.slice(2).map( value => {
+        if(isNaN(Number(value))){
+            throw new Error ('Provided were values not numbers')
+        } else {
+            return Number(value)
+        }
+    })
+
+    const target = numArr.slice(0)[0]
+    const exercises = numArr.slice(1)
+
+    if (target === 0) throw new Error ('Target amount must be greater than 0')
+
+    return {
+        exercises,
+        target
+    }
+}
+
 interface ExerciseReport {
     periodLength: number,
     trainingDays: number,
@@ -23,7 +50,7 @@ const calculateExercises = (exercises: Array<number>, target: number): ExerciseR
         ratingDescription = 'do. better.'
     } else if (percentage >= 80 && percentage <= 120) {
         rating = 2
-        ratingDescription = 'excellent work'
+        ratingDescription = 'good work'
     } else if (percentage > 120) {
         rating = 3
         ratingDescription = 'astounding! Should probably raise your target.'
@@ -40,4 +67,9 @@ const calculateExercises = (exercises: Array<number>, target: number): ExerciseR
     }
 }
 
-console.log(calculateExercises([3, 0, 2, 4.5, 0, 3, 1],2))
+try {
+    const { exercises, target } = parseArguments(process.argv);
+    console.log(calculateExercises(exercises, target))
+} catch (e) {
+    console.log("Error: ", e.message)
+}
