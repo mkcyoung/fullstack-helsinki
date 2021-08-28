@@ -29,6 +29,20 @@ export const ALL_BOOKS = gql`
                 bookCount
             }
             published
+            genres
+        }
+    }
+`
+
+export const GET_BOOKS_BY_GENRE = gql`
+    query getBooksByGenre($genre: String!) {
+        allBooks(genre: $genre) {
+            title
+            author {
+                name
+            }
+            published
+            genres
         }
     }
 `

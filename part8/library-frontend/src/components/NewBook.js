@@ -15,7 +15,7 @@ const NewBook = (props) => {
     },
     update: (store, response) => {
       const bookDataInStore = store.readQuery( {query: ALL_BOOKS} )
-      const authorDataInStore = store.readQuery( {query: ALL_AUTHORS} )
+      // const authorDataInStore = store.readQuery( {query: ALL_AUTHORS} )
       store.writeQuery({
         query: ALL_BOOKS,
         data: {
@@ -23,15 +23,15 @@ const NewBook = (props) => {
           allBooks: [...bookDataInStore.allBooks, response.data.addBook]
         }
       })
-      store.writeQuery({
-        query: ALL_AUTHORS,
-        data: {
-          ...authorDataInStore,
-          allAuthors: [...authorDataInStore.allAuthors, response.data.addBook.author]
-        }
-      })
+      // store.writeQuery({
+      //   query: ALL_AUTHORS,
+      //   data: {
+      //     ...authorDataInStore,
+      //     allAuthors: [...authorDataInStore.allAuthors, response.data.addBook.author]
+      //   }
+      // })
     },
-    // refetchQueries: [ { query: ALL_BOOKS }, { query: ALL_AUTHORS } ]
+    refetchQueries: [ { query: ALL_AUTHORS } ]
   })
 
 

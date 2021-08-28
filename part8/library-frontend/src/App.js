@@ -1,16 +1,19 @@
 import React, { useState, useEffect } from 'react'
-import { useApolloClient } from '@apollo/client'
+import { useApolloClient, useQuery } from '@apollo/client'
 import Authors from './components/Authors'
 import Books from './components/Books'
 import NewBook from './components/NewBook'
 import Notification from './components/Notification'
 import LoginForm from './components/LoginForm'
+import Recommended from './components/Recommended'
+import { GET_USER } from './queries'
 
 const App = () => {
   const [page, setPage] = useState('authors')
   const [errorMessage, setErrorMessage] = useState(null)
   const [token, setToken] = useState(null)
   const client = useApolloClient()
+  const user = useQuery(GET_USER)
 
   useEffect(() => {
     const loggedIn = localStorage.getItem('library-user-token')
@@ -33,9 +36,9 @@ const App = () => {
     setPage('authors')
   }
 
-
-
-  //need a way to check if still have token etc. maybe can just access via client or query? 
+  if(user.loading){
+    return <div>loading...</div>
+  }
 
   if (!token) {
     return (
@@ -73,6 +76,7 @@ const App = () => {
         <button onClick={() => setPage('authors')}>authors</button>
         <button onClick={() => setPage('books')}>books</button>
         <button onClick={() => setPage('add')}>add book</button>
+        <button onClick={() => setPage('recommend')}>recommended</button>
         <button onClick={() => logout()}>logout</button>
       </div>
 
@@ -84,6 +88,11 @@ const App = () => {
 
       <Books
         show={page === 'books'}
+      />
+
+      <Recommended
+        show={page ==='recommend'}
+        userGenre={user.data.me.favoriteGenre}
       />
 
       <NewBook
