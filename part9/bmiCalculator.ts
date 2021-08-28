@@ -3,22 +3,34 @@ interface BmiValues {
     weight: number;
   }
 
-const parseArguments = (args: Array<string>): BmiValues => {
-    if (args.length < 4) throw new Error('Not enough arguments');
-    if (args.length > 4) throw new Error('Too many arguments');
+// const parseCommandArguments = (args: Array<string>): BmiValues => {
+//     if (args.length < 4) throw new Error('Not enough arguments');
+//     if (args.length > 4) throw new Error('Too many arguments');
   
-    if (!isNaN(Number(args[2])) && !isNaN(Number(args[3]))) {
-        if (Number(args[2]) === 0) throw new Error ('Can\'t divide by 0!')
+//     if (!isNaN(Number(args[2])) && !isNaN(Number(args[3]))) {
+//         if (Number(args[2]) === 0) throw new Error ('Can\'t divide by 0!')
+//         return {
+//             height: Number(args[2]),
+//             weight: Number(args[3])
+//         }
+//     } else {
+//       throw new Error('Provided values were not numbers!');
+//     }
+// }
+
+export const parseQueryArgs = (height: any, weight: any): BmiValues => {
+    if (!isNaN(Number(height)) && !isNaN(Number(weight))) {
+        if (Number(height) === 0) throw new Error ('Can\'t divide by 0!')
         return {
-            height: Number(args[2]),
-            weight: Number(args[3])
+            height: Number(height),
+            weight: Number(weight)
         }
     } else {
-      throw new Error('Provided values were not numbers!');
+      throw new Error('malformed input');
     }
 }
 
-const calculateBmi = (height: number, weight: number) : string => {
+export const calculateBmi = (height: number, weight: number) : string | undefined => {
 
     const bmi = weight / ((height / 100) ** 2)
 
@@ -31,11 +43,12 @@ const calculateBmi = (height: number, weight: number) : string => {
     } else if (bmi >= 30) {
         return "Obese"
     }
+    return
 }
 
-try {
-    const { height, weight } = parseArguments(process.argv);
-    console.log(calculateBmi(height, weight))
-} catch (e) {
-    console.log("Error: ", e.message)
-}
+// try {
+//     const { height, weight } = parseCommandArguments(process.argv);
+//     console.log(calculateBmi(height, weight))
+// } catch (e) {
+//     console.log("Error: ", e.message)
+// }
