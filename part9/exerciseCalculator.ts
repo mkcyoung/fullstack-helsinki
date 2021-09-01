@@ -10,22 +10,22 @@ const parseArguments = (args: Array<string>): ExerciseValues => {
 
     const numArr = args.slice(2).map( value => {
         if(isNaN(Number(value))){
-            throw new Error ('Provided were values not numbers')
+            throw new Error ('Provided were values not numbers');
         } else {
-            return Number(value)
+            return Number(value);
         }
-    })
+    });
 
-    const target = numArr.slice(0)[0]
-    const exercises = numArr.slice(1)
+    const target = numArr.slice(0)[0];
+    const exercises = numArr.slice(1);
 
-    if (target === 0) throw new Error ('Target amount must be greater than 0')
+    if (target === 0) throw new Error ('Target amount must be greater than 0');
 
     return {
         exercises,
         target
-    }
-}
+    };
+};
 
 interface ExerciseReport {
     periodLength: number,
@@ -37,23 +37,23 @@ interface ExerciseReport {
     average: number
 }
 
-const calculateExercises = (exercises: Array<number>, target: number): ExerciseReport  => {
+export const calculateExercises = (exercises: Array<number>, target: number): ExerciseReport  => {
 
-    const average = _.mean(exercises)
-    const percentage = average/(target) * 100
+    const average = _.mean(exercises);
+    const percentage = average/(target) * 100;
 
-    let rating
-    let ratingDescription
+    let rating = 0;
+    let ratingDescription = 'none';
 
     if (percentage < 80) {
-        rating = 1
-        ratingDescription = 'do. better.'
+        rating = 1;
+        ratingDescription = 'do. better.';
     } else if (percentage >= 80 && percentage <= 120) {
-        rating = 2
-        ratingDescription = 'good work'
+        rating = 2;
+        ratingDescription = 'good work';
     } else if (percentage > 120) {
-        rating = 3
-        ratingDescription = 'astounding! Should probably raise your target.'
+        rating = 3;
+        ratingDescription = 'astounding! Should probably raise your target.';
     }
 
     return {
@@ -64,12 +64,17 @@ const calculateExercises = (exercises: Array<number>, target: number): ExerciseR
         ratingDescription,
         target,
         average
-    }
-}
+    };
+};
 
-try {
-    const { exercises, target } = parseArguments(process.argv);
-    console.log(calculateExercises(exercises, target))
-} catch (e) {
-    console.log("Error: ", e.message)
+const isCalledDirectly = require.main === module;
+
+if (isCalledDirectly){
+    try {
+        const { exercises, target } = parseArguments(process.argv);
+    console.log(calculateExercises(exercises, target));
+    } catch (e) {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+        console.log("Error: ", e.message);
+    }
 }
