@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import express from 'express';
 import patientsService from '../services/patientsService';
 
@@ -7,8 +8,9 @@ router.get('/', (_req, res) => {
   res.send(patientsService.getSafePatients());
 });
 
-router.post('/', (_req, res) => {
-  res.send('Saving a patient!');
+router.post('/', (req, res) => {
+    const newPatient = req.body;
+    res.send(patientsService.addPatient(newPatient));
 });
 
 export default router;

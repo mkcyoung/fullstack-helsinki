@@ -1,0 +1,12 @@
+POST http://localhost:3001/api/patients
+Content-Type: application/json
+
+{
+  "id": "01932",
+  "name": "Beth Betherson",
+  "dateOfBirth": "01-23-1975",
+  "ssn":"019-32-3243",
+  "gender":"female",
+  "occupation":"plumber"
+
+}
