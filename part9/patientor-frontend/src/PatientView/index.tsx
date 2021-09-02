@@ -11,7 +11,7 @@ import { setPatient, useStateValue } from "../state";
 
 
 const PatientView = () => {
-    const [ {patient}, dispatch] = useStateValue();
+    const [ {patient, diagnoses}, dispatch] = useStateValue();
     const { id } = useParams<{ id: string }>();
     const history = useHistory();
     // console.log(id, patient);
@@ -57,7 +57,7 @@ const PatientView = () => {
                 {patient.entries?.map((entry) => (
                     <div key={entry.id}> {entry.date} : {entry.description}
                         <ul>
-                            {entry.diagnosisCodes?.map((code,i) => <li key={i}>{code}</li> )}
+                            {entry.diagnosisCodes?.map((code,i) => <li key={i}>{code} : {diagnoses.find((d) => d.code === code )?.name}</li> )}
                         </ul>
                     </div> 
                 ))}
