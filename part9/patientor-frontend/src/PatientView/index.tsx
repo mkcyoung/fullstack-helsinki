@@ -1,11 +1,12 @@
 import React from "react";
 import axios from "axios";
 import { useParams, useHistory } from "react-router-dom";
-import { Container, Header, Icon } from "semantic-ui-react";
+import { Card, Container, Header, Icon } from "semantic-ui-react";
 
 import { apiBaseUrl } from "../constants";
 import { Patient } from "../types";
 import { setPatient, useStateValue } from "../state";
+import EntryDetails from "./EntryDetails";
 
 // import AddPatientModal from "../AddPatientModal";
 
@@ -54,13 +55,18 @@ const PatientView = () => {
                 <span>ssn: {patient.ssn}</span> <br/>
                 <span>occupation: {patient.occupation} </span>
                 <Header as='h3'>entries</Header>
-                {patient.entries?.map((entry) => (
+                <Card.Group>
+                    {patient.entries?.map((entry) => (
+                        <EntryDetails key={entry.id} entry={entry} diagnoses={diagnoses} />
+                    ))}
+                </Card.Group>
+                {/* {patient.entries?.map((entry) => (
                     <div key={entry.id}> {entry.date} : {entry.description}
                         <ul>
                             {entry.diagnosisCodes?.map((code,i) => <li key={i}>{code} : {diagnoses.find((d) => d.code === code )?.name}</li> )}
                         </ul>
                     </div> 
-                ))}
+                ))} */}
             </Container>
         :
         <div></div>
