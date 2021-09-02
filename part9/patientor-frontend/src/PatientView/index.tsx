@@ -5,7 +5,7 @@ import { Container, Header, Icon } from "semantic-ui-react";
 
 import { apiBaseUrl } from "../constants";
 import { Patient } from "../types";
-import { useStateValue } from "../state";
+import { setPatient, useStateValue } from "../state";
 
 // import AddPatientModal from "../AddPatientModal";
 
@@ -32,7 +32,8 @@ const PatientView = () => {
             const { data: patientFromApi } = await axios.get<Patient>(
               `${apiBaseUrl}/patients/${id}`
             );
-            dispatch({ type: "SET_PATIENT", payload: patientFromApi });
+            dispatch(setPatient(patientFromApi));
+            // dispatch({ type: "SET_PATIENT", payload: patientFromApi });
           } catch (e) {
             console.error(e);
             history.push("/");

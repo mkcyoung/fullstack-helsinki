@@ -8,7 +8,7 @@ import AddPatientModal from "../AddPatientModal";
 import { Patient } from "../types";
 import { apiBaseUrl } from "../constants";
 import HealthRatingBar from "../components/HealthRatingBar";
-import { useStateValue } from "../state";
+import { addPatient, useStateValue, setPatient } from "../state";
 
 const PatientListPage = () => {
   const [{ patients }, dispatch] = useStateValue();
@@ -25,7 +25,8 @@ const PatientListPage = () => {
 
   // Sets patient state to null every time we come back to the home page
   React.useEffect( () => {
-    dispatch({ type: 'SET_PATIENT', payload: null });
+    dispatch(setPatient(null));
+    // dispatch({ type: 'SET_PATIENT', payload: null });
   }, []);
 
   const submitNewPatient = async (values: PatientFormValues) => {
@@ -34,7 +35,8 @@ const PatientListPage = () => {
         `${apiBaseUrl}/patients`,
         values
       );
-      dispatch({ type: "ADD_PATIENT", payload: newPatient });
+      dispatch(addPatient(newPatient));
+      // dispatch({ type: "ADD_PATIENT", payload: newPatient });
       closeModal();
     } catch (e) {
       console.error(e.response?.data || 'Unknown Error');
