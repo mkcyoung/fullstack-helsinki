@@ -1,5 +1,6 @@
 import React from "react";
 import axios from "axios";
+import { Link } from "react-router-dom";
 import { Container, Table, Button } from "semantic-ui-react";
 
 import { PatientFormValues } from "../AddPatientModal/AddPatientForm";
@@ -21,6 +22,11 @@ const PatientListPage = () => {
     setModalOpen(false);
     setError(undefined);
   };
+
+  // Sets patient state to null every time we come back to the home page
+  React.useEffect( () => {
+    dispatch({ type: 'SET_PATIENT', payload: null });
+  }, []);
 
   const submitNewPatient = async (values: PatientFormValues) => {
     try {
@@ -53,7 +59,9 @@ const PatientListPage = () => {
         <Table.Body>
           {Object.values(patients).map((patient: Patient) => (
             <Table.Row key={patient.id}>
-              <Table.Cell>{patient.name}</Table.Cell>
+              <Table.Cell>
+                <Link to={`/patients/${patient.id}`}> {patient.name} </Link>
+              </Table.Cell>
               <Table.Cell>{patient.gender}</Table.Cell>
               <Table.Cell>{patient.occupation}</Table.Cell>
               <Table.Cell>

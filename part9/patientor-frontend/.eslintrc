@@ -30,6 +30,6 @@
   },
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
-    "project": "./tsconfig.json"
+    "project": "/users/myoung/documents/fullstack/fullstack-helsinki/part9/patientor-frontend/tsconfig.json"
   }
 }
