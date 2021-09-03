@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import express from 'express';
 import patientsService from '../services/patientsService';
-import toNewPatient from '../utils';
+import toNewPatient, {toNewEntry} from '../utils';
 
 const router = express.Router();
 
@@ -17,7 +17,21 @@ router.get('/:id', (req, res) => {
     } else {
       res.sendStatus(404);
     }
-  });
+});
+
+router.post('/:id/entries', (req, res) => {
+  try {
+      const patient = patientsService.findById(req.params.id);
+      const newEntry = toNewEntry(req.body);
+      if (patient && newEntry){
+        const addedEntry = patientsService.addEntry(patient, newEntry);
+        res.json(addedEntry);
+      }
+  } catch ({ message } : unknown ) {
+
+      res.status(400).send(message);
+  }
+});
 
 router.post('/', (req, res) => {
     try {

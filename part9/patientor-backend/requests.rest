@@ -10,3 +10,45 @@ Content-Type: application/json
   "occupation":"plumber"
 
 }
+
+###
+POST http://localhost:3001/api/patients/d2773336-f723-11e9-8f0b-362b9e155667/entries
+Content-Type: application/json
+
+{
+  "date": "2019-09-10",
+  "specialist": "MD House",
+  "type": "OccupationalHealthcare",
+  "employerName": "Department of Homeland Security",
+  "description": "Enema delivered"
+}
+
+###
+POST http://localhost:3001/api/patients/d2773336-f723-11e9-8f0b-362b9e155667/entries
+Content-Type: application/json
+
+{
+  "date": "2018-10-05",
+  "specialist": "MD House",
+  "type": "HealthCheck",
+  "description": "Yearly control visit. Due to high cholesterol levels recommended to eat more vegetables.",
+  "healthCheckRating": 1
+}
+
+###
+POST http://localhost:3001/api/patients/d2773336-f723-11e9-8f0b-362b9e155667/entries
+Content-Type: application/json
+
+{
+  "date": "2015-01-02",
+  "type": "Hospital",
+  "specialist": "MD House",
+  "diagnosisCodes": [
+  "S62.5"
+  ],
+  "description": "Healing time appr. 2 weeks. patient doesn't remember how he got the injury.",
+  "discharge": {
+  "date": "2015-01-16",
+  "criteria": "Thumb has healed."
+  }
+}
