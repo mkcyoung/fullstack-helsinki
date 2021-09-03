@@ -27,7 +27,7 @@ router.post('/:id/entries', (req, res) => {
         const addedEntry = patientsService.addEntry(patient, newEntry);
         res.json(addedEntry);
       }
-  } catch ({ message } : unknown ) {
+  } catch ({message}: unknown ) {
 
       res.status(400).send(message);
   }

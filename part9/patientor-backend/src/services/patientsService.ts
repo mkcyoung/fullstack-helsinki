@@ -1,5 +1,5 @@
 import patientData from '../../data/patients';
-import { NonSensitivePatient, Patient, NewPatient, Entry,
+import { NonSensitivePatient, Patient, NewPatient,
           // HealthCheckEntry, OccupationalHealthcareEntry, HospitalEntry,
           NewEntry } from '../types';
 import {v1 as uuid} from 'uuid';
@@ -34,14 +34,14 @@ const addPatient = ( patient : NewPatient): Patient => {
     return newPatient;
 };
 
-const addEntry = ( patient: Patient, entry: NewEntry ): Entry[] => {
+const addEntry = ( patient: Patient, entry: NewEntry ): Patient => {
   const newEntry = {
     id: uuid(),
     ...entry
   };
   patient.entries.push(newEntry);
   patientData.map( p => p.id === patient.id ? patient : p);
-  return patient.entries;
+  return patient;
 };
 
 export default {

@@ -1,31 +1,50 @@
 import React from "react";
 import axios from "axios";
 import { useParams, useHistory } from "react-router-dom";
-import { Card, Container, Header, Icon } from "semantic-ui-react";
+import { Card, Container, Header, Icon, Button } from "semantic-ui-react";
+
+import { EntryFormValues } from "../AddEntryModal/AddEntryForm";
+import AddEntrytModal from "../AddEntryModal";
 
 import { apiBaseUrl } from "../constants";
 import { Patient } from "../types";
-import { setPatient, useStateValue } from "../state";
+import { setPatient, useStateValue, addEntry } from "../state";
 import EntryDetails from "./EntryDetails";
 
 // import AddPatientModal from "../AddPatientModal";
 
 
 const PatientView = () => {
-    const [ {patient, diagnoses}, dispatch] = useStateValue();
+    const [ {patients, patient, diagnoses}, dispatch] = useStateValue();
     const { id } = useParams<{ id: string }>();
     const history = useHistory();
     // console.log(id, patient);
 
-    // const [modalOpen, setModalOpen] = React.useState<boolean>(false);
-    // const [error, setError] = React.useState<string | undefined>();
+    const [modalOpen, setModalOpen] = React.useState<boolean>(false);
+    const [error, setError] = React.useState<string | undefined>();
 
-    // const openModal = (): void => setModalOpen(true);
+    const openModal = (): void => setModalOpen(true);
 
-    // const closeModal = (): void => {
-    //     setModalOpen(false);
-    //     setError(undefined);
-    // };
+    const closeModal = (): void => {
+        setModalOpen(false);
+        setError(undefined);
+    };
+
+    // eslint-disable-next-line @typescript-eslint/require-await
+    const submitNewEntry = async (values: EntryFormValues) => {
+        try {
+          const { data: newPatientWithEntry } = await axios.post<Patient>(
+            `${apiBaseUrl}/patients/${id}/entries`,
+            values
+          );
+          dispatch(addEntry(newPatientWithEntry));
+          // dispatch({ type: "ADD_PATIENT", payload: newPatient });
+          closeModal();
+        } catch (e) {
+          console.error(e.response?.data || 'Unknown Error');
+          setError(e.response?.data || 'Unknown error');
+        }
+    };
 
     React.useEffect(() => {
         const fetchPatient = async () => {
@@ -42,7 +61,7 @@ const PatientView = () => {
           }
         };
         void fetchPatient();
-    }, [dispatch]);
+    }, [patients]);
 
     return (
         <>
@@ -67,6 +86,15 @@ const PatientView = () => {
                         </ul>
                     </div> 
                 ))} */}
+            <div style={{marginTop: "10px"}}>
+                <AddEntrytModal
+                    modalOpen={modalOpen}
+                    onSubmit={submitNewEntry}
+                    error={error}
+                    onClose={closeModal}
+                />
+                <Button onClick={() => openModal()}>Add New Entry</Button>
+            </div>
             </Container>
         :
         <div></div>
