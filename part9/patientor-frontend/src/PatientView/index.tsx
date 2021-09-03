@@ -1,7 +1,7 @@
 import React from "react";
 import axios from "axios";
 import { useParams, useHistory } from "react-router-dom";
-import { Card, Container, Header, Icon, Button } from "semantic-ui-react";
+import { Card, Container, Header, Icon, Button, Popup } from "semantic-ui-react";
 
 import { EntryFormValues } from "../AddEntryModal/AddEntryForm";
 import AddEntrytModal from "../AddEntryModal";
@@ -22,8 +22,12 @@ const PatientView = () => {
 
     const [modalOpen, setModalOpen] = React.useState<boolean>(false);
     const [error, setError] = React.useState<string | undefined>();
+    const [modalType, setModalType] = React.useState<"Hospital" | "OccupationalHealthcare" | "HealthCheck">("Hospital");
 
-    const openModal = (): void => setModalOpen(true);
+    const openModal = (type : "Hospital" | "OccupationalHealthcare" | "HealthCheck"): void => {
+        setModalOpen(true);
+        setModalType(type);
+    };
 
     const closeModal = (): void => {
         setModalOpen(false);
@@ -92,8 +96,11 @@ const PatientView = () => {
                     onSubmit={submitNewEntry}
                     error={error}
                     onClose={closeModal}
+                    entryType={modalType}
                 />
-                <Button onClick={() => openModal()}>Add New Entry</Button>
+                <Popup position='bottom center' content='Add Hospital Entry' trigger={<Button onClick={() => openModal("Hospital")}><Icon name='plus'/><Icon size='large' name='ambulance'/></Button>} />
+                <Popup position='bottom center' content='Add Occupational Healthcare Entry' trigger={<Button onClick={() => openModal("OccupationalHealthcare")}><Icon name='plus'/><Icon size='large' name='plus square'/></Button>} />
+                <Popup position='bottom center' content='Add Health Check Entry' trigger={<Button onClick={() => openModal("HealthCheck")}><Icon name='plus'/><Icon size='large' name='user md'/></Button>} />
             </div>
             </Container>
         :
