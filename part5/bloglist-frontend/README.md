@@ -1,3 +1,19 @@
+# [Part 5](https://fullstackopen.com/en/part5) - Testing React apps
+>We will now create a frontend for the bloglist backend we created in the last part. The application expects your backend to be running on port 3003.
+
+## exercises
+
+### login in frontend
+- [exercises 5.1-5.4](https://fullstackopen.com/en/part5/login_in_frontend#exercises-5-1-5-4)
+### props.children and prototypes
+- [exercises 5.5-5.10](https://fullstackopen.com/en/part5/props_children_and_proptypes#exercises-5-5-5-10)
+- [exercises 5.11-5.12](https://fullstackopen.com/en/part5/props_children_and_proptypes#exercises-5-11-5-12)
+### testing with jest
+- [exercises 5.13-5.16](https://fullstackopen.com/en/part5/testing_react_apps#exercises-5-13-5-16)
+### end to end testing with cypress
+- [exercises 5.17-5.22](https://fullstackopen.com/en/part5/end_to_end_testing#exercises-5-17-5-22)
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
