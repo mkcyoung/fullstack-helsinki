@@ -27,10 +27,10 @@ From the course webpage:
 [solutions to exercises](https://github.com/mkcyoung/fullstack-part3)  
 [view app deployment](https://safe-savannah-96464.herokuapp.com/) (be forewarned, styling was definitely not a focus for me on this exercise :smile: )
 
-## Part 4 - [Testing Express servers, user administration](https://fullstackopen.com/en/part4/bloglist)
+## Part 4 - [Testing Express servers, user administration](https://fullstackopen.com/en/part4)
 >In this part, we will continue our work on the backend. Our first major theme will be writing unit and integration tests for the backend. After we have covered testing, we will take a look at implementing user authentication and authorization.
 
-[solutions to exercises](https://github.com/mkcyoung/fullstack-helsinki/tree/main/part4)
+[solutions to exercises](https://github.com/mkcyoung/fullstack-helsinki/tree/main/part4/bloglist)
 
 ## Part 5 - [Testing React apps](https://fullstackopen.com/en/part5)
 >In this part we return to the frontend, first looking at different possibilities for testing the React code. We will also implement token based authentication which will enable users to log in to our application.
