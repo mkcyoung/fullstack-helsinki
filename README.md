@@ -25,7 +25,7 @@ From the course webpage:
 >In this part our focus shifts towards the backend, that is, towards implementing functionality on the server side of the stack. We will implement a simple REST API in Node.js by using the Express library, and the application's data will be stored in a MongoDB database. At the end of this part, we will deploy our application to the internet.
 
 ### [solutions to exercises](https://github.com/mkcyoung/fullstack-part3)  
-### [view app deployment](https://safe-savannah-96464.herokuapp.com/) (be forewarned, styling was definitely not a focus for me on this exercise :smile: )
+### [view app deployment](https://safe-savannah-96464.herokuapp.com/) (be forewarned, styling was definitely not a focus for me on this exercise 😅 )
 
 ## Part 4 - [Testing Express servers, user administration](https://fullstackopen.com/en/part4)
 >In this part, we will continue our work on the backend. Our first major theme will be writing unit and integration tests for the backend. After we have covered testing, we will take a look at implementing user authentication and authorization.
