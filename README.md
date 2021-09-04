@@ -35,7 +35,7 @@ From the course webpage:
 ## Part 5 - [Testing React apps](https://fullstackopen.com/en/part5)
 >In this part we return to the frontend, first looking at different possibilities for testing the React code. We will also implement token based authentication which will enable users to log in to our application.
 
-[solutions to exercises](https://github.com/mkcyoung/fullstack-helsinki/tree/main/part5)
+[solutions to exercises](https://github.com/mkcyoung/fullstack-helsinki/tree/main/part5/bloglist-frontend)
 
 ## Part 6 - [State management with Redux](https://fullstackopen.com/en/part6)
 >So far, we have placed the application's state and state logic directly inside React-components. When applications grow larger, state management should be moved outside React-components. In this part, we will introduce the Redux-library, which is currently the most popular solution for managing the state of React-applications.
