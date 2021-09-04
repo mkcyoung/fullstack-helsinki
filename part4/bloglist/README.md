@@ -13,9 +13,9 @@
 - [exercises 4.15-4.23](https://fullstackopen.com/en/part4/token_authentication#exercises-4-15-4-23)
 
 ## scripts
-### npm run start
-### npm run dev
-### npm run test
-### npm run lint
-### npm start:test
+### `npm start`
+### `npm dev`
+### `npm test`
+### `npm lint`
+### `npm start:test`
 
